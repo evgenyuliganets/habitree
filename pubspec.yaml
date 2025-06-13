@@ -1,5 +1,5 @@
 name: habitree
-description: "A planner and goal-tracking app to help you structure your day."
+description: "A planner and goal‑tracking app to help you structure your day."
 publish_to: 'none'
 
 version: 1.0.0+1
@@ -10,15 +10,49 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  flutter_screenutil: ^5.9.3
 
+  # UI
+  flutter_screenutil: ^5.9.3
   cupertino_icons: ^1.0.8
 
+  # State Management
+  flutter_riverpod: ^2.6.1
+
+  # Firebase
+  firebase_core: ^3.14.0
+  google_sign_in: ^6.3.0
+
+  # Local Database
+  drift: ^2.26.1
+  drift_flutter: ^0.2.4
+
+  # Secure Storage
+  flutter_secure_storage: ^9.2.4
+
+  # HTTP / Networking
+  dio: ^5.8.0
+
+  # Dependency Injection
+  injectable: ^2.5.0
+  get_it: ^8.0.3
+
+  # Models / Code Generation
+  freezed_annotation: ^3.0.0
+  json_annotation: ^4.9.0
+
+# DEV DEPENDENCIES
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
+  #Analysis
   very_good_analysis: ^7.0.0
+
+  # Code Generation
+  build_runner: ^2.4.15
+  injectable_generator: ^2.7.0
+  freezed: ^3.0.6
+  json_serializable: ^6.9.5
 
 flutter:
   uses-material-design: true

@@ -7,7 +7,6 @@ class RoutesErrorPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    log('in');
     return Scaffold(
       appBar: AppBar(
         title: Text('Error Page', style: context.headlineMedium),

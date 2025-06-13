@@ -25,15 +25,16 @@ class RouteGenerator {
         return _buildPage(const SplashPage(), args);
 
       case RoutePaths.onboarding:
-        if (args is! String) return _errorRoute(settings.name);
-        return _buildPage(OnboardingPage(language: args), args);
+        return _buildPage(OnboardingPage(language: args! as String), args);
 
       case RoutePaths.onboardingLanguage:
-        if (args is! String) return _errorRoute(settings.name);
-        return _buildPage(OnboardingLanguagePage(langName: args), args);
+        return _buildPage(
+          OnboardingLanguagePage(langName: args! as String),
+          args,
+        );
 
       default:
-        return _errorRoute(settings.name);
+        return _buildPage(const SplashPage(), args);
     }
   }
 
