@@ -1,0 +1,29 @@
+{
+  "authStart": {
+    "hello": "Hello!",
+    "continueApple": "Apple",
+    "continueGoogle": "Google",
+    "continueFacebook": "Facebook",
+    "continueWith": "Continue with"
+  },
+  "errors": {
+    "sessionExpired": "Session expired. Please log in again.",
+    "notFound": "Resource not found.",
+    "serverError": "Server temporarily unavailable.",
+    "timeout": "Request timed out.",
+    "noInternet": "No internet connection.",
+    "unknownHttp": "Unknown error while contacting the server.",
+    "unknown": "Unknown error."
+  },
+  "authFields": {
+    "email": "Email",
+    "password": "Password",
+    "repeatPassword": "Repeat password",
+    "firstName": "First Name",
+    "lastName": "Last Name",
+    "mobileNumber": "Mobile number",
+    "day": "Day",
+    "month": "Month",
+    "year": "Year"
+  }
+}

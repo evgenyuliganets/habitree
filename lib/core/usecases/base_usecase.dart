@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:flutter/widgets.dart';
 
@@ -11,13 +12,13 @@ abstract class BaseUseCase<TParam, TResult> {
   Future<TResult?> call(TParam param) async {
     try {
       return await execute(param);
-    } catch (e, stk) {
+    } on Exception catch (e, stk) {
       return _handleException(e, stk);
     }
   }
 
   TResult? _handleException(Object e, StackTrace stk) {
-    debugPrint('Error occurred: $e');
+    log('Error occurred: $e');
     // debugPrint('Stack trace: $stk');
     // const ErrorHandler().handleErrorEvent(
     //   ErrorOccurredEvent(e),

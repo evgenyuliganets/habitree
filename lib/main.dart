@@ -1,13 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:habitree/core/constants/constants.dart';
-import 'package:habitree/core/extensions/text_theme_extensions.dart';
 import 'package:habitree/core/theme/app_theme.dart';
+import 'package:habitree/core/theme/extensions/text_theme_extensions.dart';
+import 'package:habitree/di/di.dart';
+import 'package:habitree/i18n/strings.g.dart';
 import 'package:habitree/routes/route_generator.dart';
+import 'package:habitree/routes/route_paths.dart';
 
 /// Entry point of the application.
 void main() {
-  runApp(const HabitreeApp());
+  WidgetsFlutterBinding.ensureInitialized();
+  LocaleSettings.useDeviceLocale();
+  configureDependencies();
+  runApp(TranslationProvider(child: const ProviderScope(child: HabitreeApp())));
 }
 
 /// Root widget of the Habitree app.
@@ -39,7 +46,7 @@ class _HabitreeAppState extends State<HabitreeApp> {
           theme: AppTheme.lightTheme,
           darkTheme: AppTheme.darkTheme,
           themeMode: _themeMode ?? ThemeMode.system,
-           builder: (BuildContext context, Widget? child) {
+          builder: (BuildContext context, Widget? child) {
             return Stack(
               children: [
                 child!,
@@ -49,16 +56,14 @@ class _HabitreeAppState extends State<HabitreeApp> {
                   child: GestureDetector(
                     onTap: _toggleTheme,
                     child: Container(
-                      padding: EdgeInsets.symmetric(
-                          horizontal: 12.w, vertical: 8.h),
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
                       decoration: BoxDecoration(
                         color: Colors.grey.shade300.withValues(alpha: 0.8),
                         borderRadius: BorderRadius.circular(12.r),
                       ),
                       child: Text(
-                        _themeMode == ThemeMode.light
-                            ? 'Light ☀️'
-                            : 'Dark 🌙',
+                        _themeMode == ThemeMode.light ? 'Light ☀️' : 'Dark 🌙',
                         style: context.bodySmall,
                       ),
                     ),
@@ -67,7 +72,7 @@ class _HabitreeAppState extends State<HabitreeApp> {
               ],
             );
           },
-          initialRoute: '/splash',
+          initialRoute: RoutePaths.splash,
           onGenerateRoute: RouteGenerator().generateRoute,
         );
       },

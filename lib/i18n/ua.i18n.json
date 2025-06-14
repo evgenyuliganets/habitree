@@ -1,0 +1,29 @@
+{
+  "authStart": {
+    "hello": "Привіт!",
+    "continueApple": "Apple",
+    "continueGoogle": "Google",
+    "continueFacebook": "Facebook",
+    "continueWith": "Продовжити з"
+  },
+  "errors": {
+    "sessionExpired": "Сесія завершена. Авторизуйтесь знову.",
+    "notFound": "Ресурс не знайдено.",
+    "serverError": "Сервер тимчасово недоступний.",
+    "timeout": "Перевищено час очікування.",
+    "noInternet": "Немає підключення до інтернету.",
+    "unknownHttp": "Невідома помилка при зверненні до сервера.",
+    "unknown": "Невідома помилка."
+  },
+  "authFields": {
+    "email": "Електронна пошта",
+    "password": "Пароль",
+    "repeatPassword": "Повторіть пароль",
+    "firstName": "Ім’я",
+    "lastName": "Прізвище",
+    "mobileNumber": "Номер телефону",
+    "day": "День",
+    "month": "Місяць",
+    "year": "Рік"
+  }
+}

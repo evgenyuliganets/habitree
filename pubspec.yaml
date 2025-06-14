@@ -14,12 +14,17 @@ dependencies:
   # UI
   flutter_screenutil: ^5.9.3
   cupertino_icons: ^1.0.8
+  flutter_svg: ^2.1.0
 
   # State Management
   flutter_riverpod: ^2.6.1
 
+  #Translations
+  slang: ^4.7.2
+  slang_flutter: ^4.7.0
+
   # Firebase
-  firebase_core: ^3.14.0
+  firebase_core: 3.12.1
   google_sign_in: ^6.3.0
 
   # Local Database
@@ -31,13 +36,14 @@ dependencies:
 
   # HTTP / Networking
   dio: ^5.8.0
+  pretty_dio_logger: ^1.4.0
 
   # Dependency Injection
   injectable: ^2.5.0
   get_it: ^8.0.3
 
   # Models / Code Generation
-  freezed_annotation: ^3.0.0
+  freezed_annotation: ^2.4.4
   json_annotation: ^4.9.0
 
 # DEV DEPENDENCIES
@@ -51,14 +57,16 @@ dev_dependencies:
   # Code Generation
   build_runner: ^2.4.15
   injectable_generator: ^2.7.0
-  freezed: ^3.0.6
+  freezed: ^2.5.8
   json_serializable: ^6.9.5
+  slang_build_runner: ^4.7.0
 
 flutter:
   uses-material-design: true
 
   assets:
     - assets/fonts/Manrope/
+    - assets/icons/auth/
 
 fonts:
   - family: Manrope

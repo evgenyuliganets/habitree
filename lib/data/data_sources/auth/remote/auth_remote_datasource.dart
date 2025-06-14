@@ -1,10 +1,13 @@
-import 'package:habitree/data/models/auth/google_token.dart';
-import 'package:habitree/data/models/auth/session.dart';
+import 'package:habitree/core/result/result.dart';
+import 'package:habitree/data/models/auth/google_token_dto.dart';
+import 'package:habitree/data/models/auth/session_dto.dart';
 
 abstract class AuthRemoteDataSource {
-  Future<Session> signInWithGoogle(GoogleToken googleToken);
+  Future<Result<SessionDto>> signInWithGoogle(GoogleTokenDto googleToken);
 
-  Future<void> signOut();
+  Future<Result<void>> signOut();
 
-  Future<void> deleteAccount();
+  Future<Result<void>> deleteAccount();
+
+  Future<Result<void>> sendOtpToEmail(String email);
 }

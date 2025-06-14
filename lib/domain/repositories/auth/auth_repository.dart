@@ -1,12 +1,15 @@
-import 'package:habitree/data/models/auth/google_token.dart';
-import 'package:habitree/data/models/auth/session.dart';
+import 'package:habitree/core/result/result.dart';
+import 'package:habitree/domain/entities/auth/google_token.dart';
+import 'package:habitree/domain/entities/auth/session.dart';
 
 abstract class AuthRepository {
-  Future<Session> signInWithGoogle(GoogleToken googleToken);
+  Future<Result<Session>> signInWithGoogle(GoogleToken googleToken);
 
-  Future<void> signOut();
+  Future<Result<void>> signOut();
 
-  Future<void> deleteAccount();
+  Future<Result<void>> deleteAccount();
 
-  Future<Session?> getCurrentSession();
+  Future<Result<Session?>> getCurrentSession();
+
+  Future<Result<void>> sendOtpToEmail(String email);
 }

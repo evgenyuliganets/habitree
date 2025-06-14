@@ -4,6 +4,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:habitree/core/theme/export_ui_styleguide.dart';
+import 'package:habitree/presentation/auth/screens/auth_page.dart';
 import 'package:habitree/presentation/onboarding/onboarding_language_page.dart';
 import 'package:habitree/presentation/onboarding/onboarding_page.dart';
 import 'package:habitree/presentation/splash/splash_page.dart';
@@ -33,8 +34,12 @@ class RouteGenerator {
           args,
         );
 
+      case RoutePaths.auth:
+        return _buildPage(const AuthPage(), args);
+
+
       default:
-        return _buildPage(const SplashPage(), args);
+        return _errorRoute(settings.name);
     }
   }
 

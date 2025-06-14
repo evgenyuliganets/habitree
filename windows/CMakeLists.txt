@@ -43,6 +43,12 @@ function(APPLY_STANDARD_SETTINGS TARGET)
   target_compile_options(${TARGET} PRIVATE /EHsc)
   target_compile_definitions(${TARGET} PRIVATE "_HAS_EXCEPTIONS=0")
   target_compile_definitions(${TARGET} PRIVATE "$<$<CONFIG:Debug>:_DEBUG>")
+  # Force dynamic runtime (/MD /MDd) to match Firebase Desktop SDK
+  target_compile_options(${TARGET} PRIVATE
+          $<$<CONFIG:Debug>:/MDd>
+          $<$<CONFIG:Profile>:/MD>
+          $<$<CONFIG:Release>:/MD>
+  )
 endfunction()
 
 # Flutter library and tool build rules.

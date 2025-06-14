@@ -1,5 +1,6 @@
 import 'package:habitree/core/theme/app_text_theme.dart';
 import 'package:habitree/core/theme/export_ui_styleguide.dart';
+import 'package:habitree/core/theme/extensions/app_theme_extension.dart';
 
 class AppTheme {
   static ThemeData get lightTheme {
@@ -7,14 +8,108 @@ class AppTheme {
     return base.copyWith(
       scaffoldBackgroundColor: AppColors.background,
       colorScheme: base.colorScheme.copyWith(
-        primary: AppColors.primary,
+        primary: AppColors.primaryDark,
         secondary: AppColors.accent,
         surface: AppColors.background,
         onSurface: AppColors.textPrimary,
       ),
       textTheme: habitreeTextTheme.apply(
-        bodyColor: AppColors.textPrimary,
-        displayColor: AppColors.textPrimary,
+        bodyColor: AppColors.black,
+        displayColor: AppColors.black,
+      ),
+      textSelectionTheme: TextSelectionThemeData(
+        cursorColor: AppColors.textPrimary,
+        selectionColor: AppColors.black.withValues(alpha: 0.2),
+        selectionHandleColor: AppColors.black.withValues(alpha: 0.2),
+      ),
+      inputDecorationTheme: InputDecorationTheme(
+        contentPadding: EdgeInsets.symmetric(vertical: 14.h, horizontal: 16.w),
+        hintStyle: habitreeTextTheme.bodyMedium
+            ?.copyWith(color: AppColors.textTertiary),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12.r),
+          borderSide: BorderSide(
+            width: 1.w,
+          ),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12.r),
+          borderSide: BorderSide(
+            width: 1.w,
+          ),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12.r),
+          borderSide: BorderSide(
+            width: 1.5.w,
+          ),
+        ),
+        errorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12.r),
+          borderSide: BorderSide(
+            color: AppColors.error,
+            width: 1.5.w,
+          ),
+        ),
+        focusedErrorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12.r),
+          borderSide: BorderSide(
+            color: AppColors.error,
+            width: 1.5.w,
+          ),
+        ),
+        errorStyle:
+            habitreeTextTheme.bodySmall?.copyWith(color: AppColors.error),
+      ),
+      extensions: const [
+        AppThemeExtension(borderColor: AppColors.black),
+      ],
+      elevatedButtonTheme: ElevatedButtonThemeData(
+        style: ButtonStyle(
+          visualDensity: VisualDensity.standard,
+          backgroundColor: WidgetStateProperty.resolveWith((states) {
+            if (states.contains(WidgetState.disabled)) {
+              return AppColors.textSecondary;
+            }
+            return AppColors.black;
+          }),
+          padding: WidgetStateProperty.all(
+            EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.w),
+          ),
+          foregroundColor: WidgetStateProperty.all(Colors.white),
+          textStyle: WidgetStateProperty.all(habitreeTextTheme.headlineMedium),
+          shape: WidgetStateProperty.all(
+            RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20.r),
+            ),
+          ),
+          minimumSize: WidgetStateProperty.all(Size.fromHeight(48.h)),
+        ),
+      ),
+      outlinedButtonTheme: OutlinedButtonThemeData(
+        style: ButtonStyle(
+          visualDensity: VisualDensity.standard,
+          side: WidgetStateProperty.all(
+            const BorderSide(),
+          ),
+          foregroundColor: WidgetStateProperty.all(AppColors.black),
+          backgroundColor: WidgetStateProperty.resolveWith((states) {
+            if (states.contains(WidgetState.disabled)) {
+              return AppColors.border;
+            }
+            return Colors.transparent;
+          }),
+          padding: WidgetStateProperty.all(
+            EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.w),
+          ),
+          textStyle: WidgetStateProperty.all(habitreeTextTheme.headlineMedium),
+          shape: WidgetStateProperty.all(
+            RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20.r),
+            ),
+          ),
+          minimumSize: WidgetStateProperty.all(Size.fromHeight(48.h)),
+        ),
       ),
     );
   }
@@ -27,11 +122,93 @@ class AppTheme {
         primary: AppColors.primary,
         secondary: AppColors.accent,
         surface: AppColors.darkBackground,
-        onSurface: AppColors.textOnDark,
+        onSurface: AppColors.white,
       ),
       textTheme: habitreeTextTheme.apply(
-        bodyColor: AppColors.textOnDark,
-        displayColor: AppColors.textOnDark,
+        bodyColor: AppColors.white,
+        displayColor: AppColors.white,
+      ),
+      inputDecorationTheme: InputDecorationTheme(
+        contentPadding: EdgeInsets.symmetric(vertical: 14.h, horizontal: 16.w),
+        hintStyle: habitreeTextTheme.bodyMedium
+            ?.copyWith(color: AppColors.textTertiary),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12.r),
+          borderSide: BorderSide(color: AppColors.white, width: 1.w),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12.r),
+          borderSide: BorderSide(color: AppColors.white, width: 1.w),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12.r),
+          borderSide: BorderSide(color: AppColors.white, width: 1.5.w),
+        ),
+        errorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12.r),
+          borderSide: BorderSide(color: AppColors.error, width: 1.5.w),
+        ),
+        focusedErrorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12.r),
+          borderSide: BorderSide(color: AppColors.error, width: 1.5.w),
+        ),
+        errorStyle:
+            habitreeTextTheme.bodySmall?.copyWith(color: AppColors.error),
+      ),
+      textSelectionTheme: TextSelectionThemeData(
+        cursorColor: AppColors.white,
+        selectionColor: AppColors.accent.withValues(alpha: 0.2),
+        selectionHandleColor: AppColors.white,
+      ),
+      extensions: const [
+        AppThemeExtension(borderColor: AppColors.white),
+      ],
+      elevatedButtonTheme: ElevatedButtonThemeData(
+        style: ButtonStyle(
+          visualDensity: VisualDensity.standard,
+          backgroundColor: WidgetStateProperty.resolveWith((states) {
+            if (states.contains(WidgetState.disabled)) {
+              return AppColors.textTertiary;
+            }
+            return Colors.white;
+          }),
+          padding: WidgetStateProperty.all(
+            EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.w),
+          ),
+          foregroundColor: WidgetStateProperty.all(AppColors.black),
+          textStyle: WidgetStateProperty.all(habitreeTextTheme.headlineMedium),
+          shape: WidgetStateProperty.all(
+            RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20.r),
+            ),
+          ),
+          minimumSize: WidgetStateProperty.all(Size.fromHeight(48.h)),
+        ),
+      ),
+      outlinedButtonTheme: OutlinedButtonThemeData(
+        style: ButtonStyle(
+          visualDensity: VisualDensity.standard,
+          side: WidgetStateProperty.all(
+            const BorderSide(color: Colors.white),
+          ),
+          foregroundColor: WidgetStateProperty.all(Colors.white),
+          backgroundColor: WidgetStateProperty.resolveWith((states) {
+            if (states.contains(WidgetState.disabled)) {
+              return Colors.white.withValues(alpha: 0.12);
+            }
+            return Colors.transparent;
+          }),
+          padding: WidgetStateProperty.all(
+            EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.w),
+          ),
+          textStyle: WidgetStateProperty.all(habitreeTextTheme.headlineMedium),
+          shape: WidgetStateProperty.all(
+            RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20.r),
+            ),
+          ),
+          minimumSize: WidgetStateProperty.all(Size.fromHeight(48.h)),
+        ),
       ),
     );
   }

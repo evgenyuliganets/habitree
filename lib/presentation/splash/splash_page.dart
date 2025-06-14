@@ -1,73 +1,49 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:habitree/core/theme/export_ui_styleguide.dart';
+import 'package:habitree/presentation/auth/providers/auth_notifier.dart';
 import 'package:habitree/routes/route_paths.dart';
 
-class SplashPage extends StatelessWidget {
+class SplashPage extends ConsumerStatefulWidget {
   const SplashPage({super.key});
 
-  static String path = RoutePaths.splash;
+  static const path = RoutePaths.splash;
+
+  @override
+  ConsumerState<SplashPage> createState() => _SplashPageState();
+}
+
+class _SplashPageState extends ConsumerState<SplashPage> {
+  @override
+  void initState() {
+    super.initState();
+    _checkSession();
+  }
+
+  Future<void> _checkSession() async {
+    final authNotifier = ref.read(authNotifierProvider.notifier);
+    await authNotifier.loadCurrentSession();
+
+    final state = ref.read(authNotifierProvider);
+    final session = state.maybeWhen(
+      authenticated: (session) => session,
+      orElse: () => null,
+    );
+
+    if (!mounted) return;
+
+    if (session != null) {
+      log('User is already logged in: ${session.accessToken}');
+      await Navigator.of(context).pushReplacementNamed(RoutePaths.home);
+    } else {
+      log('No active session found, redirecting to auth page');
+      await Navigator.of(context).pushReplacementNamed(RoutePaths.auth);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 24.w),
-        child: Column(
-          children: [
-            SizedBox(height: 120.h),
-            // Logo / icon
-            Container(
-              width: 72.w,
-              height: 72.w,
-              decoration: BoxDecoration(
-                color: AppColors.primary,
-                borderRadius: BorderRadius.circular(16.r),
-              ),
-              child: Icon(
-                Icons.eco_rounded,
-                size: 40.w,
-                color: Colors.white,
-              ),
-            ),
-            SizedBox(height: 32.h),
-            Text(
-              'Habitree',
-              style: context.headlineLarge.copyWith(
-                fontWeight: FontWeight.w700,
-              ),
-            ),
-            SizedBox(height: 16.h),
-            Text(
-              'Your daily habit and goals tracker 🌱',
-              style: context.bodyMedium,
-              textAlign: TextAlign.center,
-            ),
-            const Spacer(),
-            SizedBox(
-              width: double.infinity,
-              child: ElevatedButton(
-                onPressed: () {
-                  //*TODO: navigation
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColors.primary,
-                  foregroundColor: Colors.white,
-                  padding: EdgeInsets.symmetric(vertical: 14.h),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12.r),
-                  ),
-                ),
-                child: Text(
-                  'Get Started',
-                  style: context.bodyLarge.copyWith(
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-              ),
-            ),
-            SizedBox(height: 48.h),
-          ],
-        ),
-      ),
+    return const Scaffold(
+      body: Center(child: CircularProgressIndicator()),
     );
   }
 }

@@ -2,7 +2,7 @@ import 'package:habitree/core/theme/export_ui_styleguide.dart';
 import 'package:habitree/routes/route_paths.dart';
 
 class OnboardingPage extends StatelessWidget {
-  const OnboardingPage({super.key, required this.language});
+  const OnboardingPage({required this.language, super.key});
 
   static String path = RoutePaths.onboarding;
 
