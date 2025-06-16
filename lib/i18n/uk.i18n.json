@@ -1,10 +1,29 @@
 {
+  "general": {
+    "ok": "Гаразд",
+    "cancel": "Скасувати",
+    "yes": "Так",
+    "no": "Ні",
+    "close": "Закрити",
+    "save": "Зберегти",
+    "edit": "Редагувати",
+    "delete": "Видалити",
+    "loading": "Завантаження...",
+    "search": "Пошук...",
+    "back": "Назад",
+    "next": "Далі",
+    "continue": "Продовжити",
+    "logout": "Вийти"
+  },
   "authStart": {
     "hello": "Привіт!",
     "continueApple": "Apple",
     "continueGoogle": "Google",
     "continueFacebook": "Facebook",
-    "continueWith": "Продовжити з"
+    "continueWith": "Продовжити з",
+    "pass6DigitCode": "Введіть 6-значний код",
+    "letterWithCodeSent": "Лист із кодом уже у вашій скриньці. Введіть його тут.",
+    "or": "Aбо"
   },
   "errors": {
     "sessionExpired": "Сесія завершена. Авторизуйтесь знову.",
@@ -25,5 +44,11 @@
     "day": "День",
     "month": "Місяць",
     "year": "Рік"
+  },
+  "bottomNav": {
+    "home": "Home",
+    "calendar": "Calendar",
+    "stats": "Progress",
+    "profile": "Profile"
   }
 }

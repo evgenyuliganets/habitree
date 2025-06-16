@@ -14,12 +14,14 @@ class SecureAuthLocalDataSource implements AuthLocalDataSource {
   SecureAuthLocalDataSource(this._storage);
 
   final FlutterSecureStorage _storage;
-
   static const _sessionKey = 'auth_session';
+
+  Session? _sessionCache;
 
   @override
   Future<Result<void>> saveSession(Session session) {
     return safeLocalCall(() async {
+      _sessionCache = session;
       final dto = SessionDto.fromDomain(session);
       final json = jsonEncode(dto.toJson());
       log('Saving session: $json', name: 'SecureAuthLocalDataSource');
@@ -30,6 +32,7 @@ class SecureAuthLocalDataSource implements AuthLocalDataSource {
   @override
   Future<Result<void>> clearSession() {
     return safeLocalCall(() async {
+      _sessionCache = null;
       await _storage.delete(key: _sessionKey);
     });
   }
@@ -37,11 +40,56 @@ class SecureAuthLocalDataSource implements AuthLocalDataSource {
   @override
   Future<Result<Session?>> getSavedSession() {
     return safeLocalCall(() async {
+      if (_sessionCache != null) return _sessionCache;
+
       final jsonStr = await _storage.read(key: _sessionKey);
       log('Retrieving session: $jsonStr', name: 'SecureAuthLocalDataSource');
       if (jsonStr == null) return null;
+
       final jsonMap = jsonDecode(jsonStr) as Map<String, dynamic>;
-      return SessionDto.fromJson(jsonMap).toDomain();
+      return _sessionCache = SessionDto.fromJson(jsonMap).toDomain();
     });
+  }
+
+  @override
+  Future<String?> getAccessToken() async {
+    final result = await getSavedSession();
+    return result.getOrNull()?.accessToken;
+  }
+
+  @override
+  Future<String?> getRefreshToken() async {
+    final result = await getSavedSession();
+    return result.getOrNull()?.refreshToken;
+  }
+
+  @override
+  Future<void> saveAccessToken(String token) async {
+    final result = await getSavedSession();
+    final session = result.dataOrNull;
+    if (session == null) return;
+
+    final updated = Session(
+      accessToken: token,
+      refreshToken: session.refreshToken,
+      expiresAt: session.expiresAt,
+    );
+
+    await saveSession(updated);
+  }
+
+  @override
+  Future<void> saveRefreshToken(String token) async {
+    final result = await getSavedSession();
+    final session = result.dataOrNull;
+    if (session == null) return;
+
+    final updated = Session(
+      accessToken: session.accessToken,
+      refreshToken: token,
+      expiresAt: session.expiresAt,
+    );
+
+    await saveSession(updated);
   }
 }

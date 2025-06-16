@@ -1,9 +1,10 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:habitree/core/constants/constants.dart';
 import 'package:habitree/core/theme/app_theme.dart';
-import 'package:habitree/core/theme/extensions/text_theme_extensions.dart';
+import 'package:habitree/core/theme/export_ui_styleguide.dart';
+import 'package:habitree/core/theme/extensions/app_theme_extension.dart';
+import 'package:habitree/core/theme/extensions/theme_extension.dart';
 import 'package:habitree/di/di.dart';
 import 'package:habitree/i18n/strings.g.dart';
 import 'package:habitree/routes/route_generator.dart';
@@ -32,7 +33,32 @@ class _HabitreeAppState extends State<HabitreeApp> {
     setState(() {
       _themeMode =
           _themeMode == ThemeMode.light ? ThemeMode.dark : ThemeMode.light;
+      final isDarkMode = _themeMode == ThemeMode.dark;
+      updateSystemUIOverlay(isDarkMode: isDarkMode);
     });
+  }
+
+  void updateSystemUIOverlay({required bool isDarkMode}) {
+    SystemChrome.setSystemUIOverlayStyle(
+      SystemUiOverlayStyle(
+        statusBarColor: Colors.transparent,
+        systemNavigationBarColor: Colors.transparent,
+        statusBarIconBrightness:
+            isDarkMode ? Brightness.light : Brightness.dark,
+        systemNavigationBarIconBrightness:
+            isDarkMode ? Brightness.light : Brightness.dark,
+      ),
+    );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    final platformBrightness =
+        WidgetsBinding.instance.platformDispatcher.platformBrightness;
+    final isDark = _themeMode == ThemeMode.dark ||
+        (_themeMode == null && platformBrightness == Brightness.dark);
+    updateSystemUIOverlay(isDarkMode: isDark);
   }
 
   @override
@@ -47,6 +73,11 @@ class _HabitreeAppState extends State<HabitreeApp> {
           darkTheme: AppTheme.darkTheme,
           themeMode: _themeMode ?? ThemeMode.system,
           builder: (BuildContext context, Widget? child) {
+            final darkMode = (_themeMode == ThemeMode.dark) ||
+                (_themeMode == null &&
+                    WidgetsBinding
+                            .instance.platformDispatcher.platformBrightness ==
+                        Brightness.dark);
             return Stack(
               children: [
                 child!,
@@ -59,12 +90,16 @@ class _HabitreeAppState extends State<HabitreeApp> {
                       padding:
                           EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
                       decoration: BoxDecoration(
-                        color: Colors.grey.shade300.withValues(alpha: 0.8),
+                        color: context.theme
+                            .extension<AppThemeExtension>()!
+                            .borderColor,
                         borderRadius: BorderRadius.circular(12.r),
                       ),
                       child: Text(
-                        _themeMode == ThemeMode.light ? 'Light ☀️' : 'Dark 🌙',
-                        style: context.bodySmall,
+                        darkMode ? 'Light ☀️' : 'Dark 🌙',
+                        style: context.bodySmall.copyWith(
+                          color: context.themeExtension.lightGrayColor,
+                        ),
                       ),
                     ),
                   ),

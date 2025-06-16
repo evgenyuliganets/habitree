@@ -1,8 +1,12 @@
+import 'dart:developer';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:habitree/core/result/result.dart';
 import 'package:habitree/di/di.dart';
+import 'package:habitree/domain/usecases/auth/confirm_otp_usecase.dart';
 import 'package:habitree/domain/usecases/auth/delete_account_usecase.dart';
 import 'package:habitree/domain/usecases/auth/get_current_session_usecase.dart';
+import 'package:habitree/domain/usecases/auth/params/confirm_otp_email_param.dart';
 import 'package:habitree/domain/usecases/auth/send_otp_email.dart';
 import 'package:habitree/domain/usecases/auth/sign_in_with_google_usecase.dart';
 import 'package:habitree/domain/usecases/auth/sign_out_usecase.dart';
@@ -17,6 +21,8 @@ class AuthNotifier extends StateNotifier<AuthState> {
     this._deleteAccountUseCase,
     this._getCurrentSessionUseCase,
     this._sendOtpEmailUseCase,
+    this._confirmOtpEmailUseCase,
+    // this._checkEmailStatusUseCase,
   ) : super(const AuthState.initial());
 
   final SignInWithGoogleUseCase _signInWithGoogleUseCase;
@@ -24,6 +30,9 @@ class AuthNotifier extends StateNotifier<AuthState> {
   final DeleteAccountUseCase _deleteAccountUseCase;
   final GetCurrentSessionUseCase _getCurrentSessionUseCase;
   final SendOtpEmailUseCase _sendOtpEmailUseCase;
+  final ConfirmOtpEmailUseCase _confirmOtpEmailUseCase;
+
+  // final CheckEmailStatusUseCase _checkEmailStatusUseCase;
 
   Future<void> loadCurrentSession() async {
     final result = await _getCurrentSessionUseCase.call();
@@ -43,7 +52,10 @@ class AuthNotifier extends StateNotifier<AuthState> {
     final result = await _signInWithGoogleUseCase.call();
     result?.mapResult(
       success: (session) => state = Authenticated(session: session),
-      failure: (f) => state = AuthError(message: f.userMessage),
+      failure: (f) {
+        log('Failed to sign in with Google: $f', name: 'AuthNotifier');
+        return state = AuthError(message: f.userMessage);
+      },
     );
   }
 
@@ -71,6 +83,45 @@ class AuthNotifier extends StateNotifier<AuthState> {
       failure: (f) => state = AuthError(message: f.userMessage),
     );
   }
+
+  Future<void> confirmOtp({required String code, required String email}) async {
+    log('current state: $state', name: 'AuthNotifier');
+
+    state = AuthOtpVerificationInProgress(email: email);
+
+    final result = await _confirmOtpEmailUseCase.call(
+      ConfirmOtpEmailParam(
+        email: email,
+        otp: code,
+      ),
+    );
+
+    result?.mapResult(
+      success: (s) => state = AuthState.authenticated(session: s),
+      failure: (f) => state = AuthError(message: f.userMessage),
+    );
+  }
+
+// Future<void> checkEmailStatus(String email) async {
+//   state = AuthCheckingEmail(email);
+//
+//   final result = await _checkEmailStatusUseCase.call(email);
+//
+//   result.mapResult(
+//     success: (status) {
+//       switch (status) {
+//         case EmailAuthStatus.notFound:
+//         case EmailAuthStatus.awaitingConfirmation:
+//         case EmailAuthStatus.confirmed:
+//           state = AuthEmailStatusResult(email: email, status: status);
+//       }
+//     },
+//     failure: (f) {
+//       log('Failed to check email status: $f', name: 'AuthNotifier');
+//       state = AuthError(message: f.userMessage);
+//     },
+//   );
+// }
 }
 
 final authNotifierProvider = StateNotifierProvider<AuthNotifier, AuthState>(

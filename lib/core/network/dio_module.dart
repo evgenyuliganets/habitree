@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:habitree/core/constants/constants.dart';
 import 'package:habitree/core/network/dio_client.dart';
+import 'package:habitree/core/network/interceptors/auth_interceptor.dart';
 import 'package:habitree/data/data_sources/auth/local/auth_local_datasource.dart';
 import 'package:injectable/injectable.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
@@ -32,7 +33,7 @@ abstract class DioModule {
         requestHeader: true,
         requestBody: true,
       ),
-      // AuthInterceptor(sessionStorage, dio),
+      AuthInterceptor(sessionStorage, dio),
     ]);
 
     return dio;

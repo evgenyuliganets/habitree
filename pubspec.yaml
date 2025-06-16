@@ -15,6 +15,7 @@ dependencies:
   flutter_screenutil: ^5.9.3
   cupertino_icons: ^1.0.8
   flutter_svg: ^2.1.0
+  pin_code_fields: ^8.0.1
 
   # State Management
   flutter_riverpod: ^2.6.1
@@ -67,6 +68,8 @@ flutter:
   assets:
     - assets/fonts/Manrope/
     - assets/icons/auth/
+    - assets/icons/common/
+    - assets/icons/dashboard/
 
 fonts:
   - family: Manrope

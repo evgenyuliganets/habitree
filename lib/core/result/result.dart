@@ -17,9 +17,14 @@ class FailureResult<T> extends Result<T> {
 }
 
 extension ResultExtensions<T> on Result<T> {
-  /// Transforms a successful result of type [T] into a new success of type [R],
-  /// using the provided [transform] function.
-  /// If the result is a failure, it is forwarded without changes.
+  /// Returns the data if this is a [Success], otherwise null.
+  T? get dataOrNull => this is Success<T> ? (this as Success<T>).data : null;
+
+  /// Returns the failure if this is a [FailureResult], otherwise null.
+  Failure? get failureOrNull =>
+      this is FailureResult ? (this as FailureResult).failure : null;
+
+  /// Allows mapping the success value to another type.
   Result<R> map<R>(R Function(T value) transform) {
     if (this is Success<T>) {
       return Success<R>(transform((this as Success<T>).data));
@@ -28,17 +33,7 @@ extension ResultExtensions<T> on Result<T> {
     }
   }
 
-  /// Returns the failure inside the result, or null if this is a success.
-  Failure? get failureOrNull {
-    return this is FailureResult ? (this as FailureResult).failure : null;
-  }
-
-  /// Returns the data inside the result, or null if this is a failure.
-  T? get dataOrNull {
-    return this is Success<T> ? (this as Success<T>).data : null;
-  }
-
-  /// Allows pattern matching with functions for both success and failure cases.
+  /// Pattern match without returning value.
   void when({
     required void Function(T data) success,
     required void Function(Failure failure) failure,
@@ -49,10 +44,8 @@ extension ResultExtensions<T> on Result<T> {
       failure((this as FailureResult).failure);
     }
   }
-}
 
-
-extension ResultExtensionsX<T> on Result<T> {
+  /// Pattern match that returns a value.
   R mapResult<R>({
     required R Function(T data) success,
     required R Function(Failure failure) failure,
@@ -65,4 +58,6 @@ extension ResultExtensionsX<T> on Result<T> {
       throw StateError('Unexpected Result type: $this');
     }
   }
+
+  T? getOrNull() => dataOrNull;
 }

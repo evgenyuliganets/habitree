@@ -1,6 +1,12 @@
 import 'package:habitree/core/theme/export_ui_styleguide.dart';
 
 TextTheme get habitreeTextTheme => TextTheme(
+      displayMedium: TextStyle(
+        fontFamily: 'Manrope',
+        fontSize: 22.sp,
+        fontWeight: FontWeight.w700,
+        height: 26 / 22,
+      ),
       headlineLarge: TextStyle(
         fontFamily: 'Manrope',
         fontSize: 24.sp,

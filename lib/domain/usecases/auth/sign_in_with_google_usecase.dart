@@ -8,9 +8,9 @@ import 'package:injectable/injectable.dart';
 @injectable
 class SignInWithGoogleUseCase extends BaseUseCaseNoParam<Result<Session>> {
   SignInWithGoogleUseCase(
-      this._googleSignInService,
-      this._authRepository,
-      );
+    this._googleSignInService,
+    this._authRepository,
+  );
 
   final GoogleSignInService _googleSignInService;
   final AuthRepository _authRepository;
@@ -18,6 +18,11 @@ class SignInWithGoogleUseCase extends BaseUseCaseNoParam<Result<Session>> {
   @override
   Future<Result<Session>> execute(void param) async {
     final token = await _googleSignInService.signIn();
-    return _authRepository.signInWithGoogle(token);
+    return token.mapResult(
+      success: _authRepository.signInWithGoogle,
+      failure: (f) {
+        return FailureResult(f);
+      },
+    );
   }
 }

@@ -5,6 +5,8 @@
 import 'package:flutter/material.dart';
 import 'package:habitree/core/theme/export_ui_styleguide.dart';
 import 'package:habitree/presentation/auth/screens/auth_page.dart';
+import 'package:habitree/presentation/auth/screens/confirm_otp_page.dart';
+import 'package:habitree/presentation/dashboard/dashboard_page.dart';
 import 'package:habitree/presentation/onboarding/onboarding_language_page.dart';
 import 'package:habitree/presentation/onboarding/onboarding_page.dart';
 import 'package:habitree/presentation/splash/splash_page.dart';
@@ -28,7 +30,7 @@ class RouteGenerator {
       case RoutePaths.onboarding:
         return _buildPage(OnboardingPage(language: args! as String), args);
 
-      case RoutePaths.onboardingLanguage:
+      case RoutePaths.language:
         return _buildPage(
           OnboardingLanguagePage(langName: args! as String),
           args,
@@ -37,6 +39,19 @@ class RouteGenerator {
       case RoutePaths.auth:
         return _buildPage(const AuthPage(), args);
 
+      case RoutePaths.confirmOtp:
+        return _buildPage(
+          ConfirmOtpPage(
+            email: args! as String,
+          ), // Assuming AuthPage handles OTP confirmation
+          args,
+        );
+
+      case RoutePaths.home:
+        return _buildPage(
+          const DashboardPage(), // Assuming HomePage is defined
+          args,
+        );
 
       default:
         return _errorRoute(settings.name);

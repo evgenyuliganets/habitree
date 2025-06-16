@@ -5,4 +5,11 @@ abstract class AuthLocalDataSource {
   Future<Result<void>> saveSession(Session session);
   Future<Result<void>> clearSession();
   Future<Result<Session?>> getSavedSession();
+
+  Future<String?> getAccessToken();
+  Future<String?> getRefreshToken();
+
+  Future<void> saveAccessToken(String token);
+  Future<void> saveRefreshToken(String token);
 }
+

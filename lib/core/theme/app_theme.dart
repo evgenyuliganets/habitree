@@ -62,7 +62,11 @@ class AppTheme {
             habitreeTextTheme.bodySmall?.copyWith(color: AppColors.error),
       ),
       extensions: const [
-        AppThemeExtension(borderColor: AppColors.black),
+        AppThemeExtension(
+          borderColor: AppColors.black,
+          lightGrayColor: AppColors.lightGrayLight,
+          grayColor: AppColors.grayLight,
+        ),
       ],
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ButtonStyle(
@@ -161,7 +165,11 @@ class AppTheme {
         selectionHandleColor: AppColors.white,
       ),
       extensions: const [
-        AppThemeExtension(borderColor: AppColors.white),
+        AppThemeExtension(
+          borderColor: AppColors.white,
+          lightGrayColor: AppColors.lightGrayDark,
+          grayColor: AppColors.grayDark,
+        ),
       ],
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ButtonStyle(

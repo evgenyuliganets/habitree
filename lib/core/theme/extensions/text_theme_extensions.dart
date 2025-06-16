@@ -15,5 +15,7 @@ extension TextThemeX on BuildContext {
 
   TextStyle get labelSmall => theme.textTheme.labelSmall!;
 
+  TextStyle get displayMedium => theme.textTheme.displayMedium!;
+
   ThemeData get theme => Theme.of(this);
 }

@@ -13,6 +13,7 @@ import 'package:dio/dio.dart' as _i361;
 import 'package:flutter_secure_storage/flutter_secure_storage.dart' as _i558;
 import 'package:get_it/get_it.dart' as _i174;
 import 'package:habitree/core/network/dio_client.dart' as _i249;
+import 'package:habitree/core/network/dio_module.dart' as _i1011;
 import 'package:habitree/data/data_sources/auth/local/auth_local_datasource.dart'
     as _i174;
 import 'package:habitree/data/data_sources/auth/local/secure_auth_local_datasource.dart'
@@ -24,11 +25,13 @@ import 'package:habitree/data/data_sources/auth/remote/auth_remote_datasource_im
 import 'package:habitree/data/services/auth/google_sign_in_service.dart'
     as _i205;
 import 'package:habitree/di/database_module.dart' as _i1050;
-import 'package:habitree/di/dio_module.dart' as _i315;
 import 'package:habitree/domain/repositories/auth/auth_repository.dart'
     as _i247;
 import 'package:habitree/domain/repositories/auth/auth_repository_impl.dart'
     as _i773;
+import 'package:habitree/domain/usecases/auth/check_email_status.dart' as _i345;
+import 'package:habitree/domain/usecases/auth/confirm_otp_usecase.dart'
+    as _i203;
 import 'package:habitree/domain/usecases/auth/delete_account_usecase.dart'
     as _i506;
 import 'package:habitree/domain/usecases/auth/get_current_session_usecase.dart'
@@ -65,7 +68,10 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i249.DioClient>(
         () => dioModule.dioClient(gh<_i361.Dio>()));
     gh.lazySingleton<_i11.AuthRemoteDataSource>(
-        () => _i966.AuthRemoteDataSourceImpl(gh<_i249.DioClient>()));
+        () => _i966.AuthRemoteDataSourceImpl(
+              gh<_i249.DioClient>(),
+              gh<_i174.AuthLocalDataSource>(),
+            ));
     gh.factory<_i247.AuthRepository>(() => _i773.AuthRepositoryImpl(
           gh<_i11.AuthRemoteDataSource>(),
           gh<_i174.AuthLocalDataSource>(),
@@ -75,20 +81,27 @@ extension GetItInjectableX on _i174.GetIt {
               gh<_i205.GoogleSignInService>(),
               gh<_i247.AuthRepository>(),
             ));
+    gh.factory<_i345.CheckEmailStatusUseCase>(
+        () => _i345.CheckEmailStatusUseCase(gh<_i247.AuthRepository>()));
+    gh.factory<_i509.SignOutUseCase>(() => _i509.SignOutUseCase(
+          gh<_i247.AuthRepository>(),
+          gh<_i205.GoogleSignInService>(),
+        ));
     gh.factory<_i506.DeleteAccountUseCase>(
         () => _i506.DeleteAccountUseCase(gh<_i247.AuthRepository>()));
     gh.factory<_i1001.GetCurrentSessionUseCase>(
         () => _i1001.GetCurrentSessionUseCase(gh<_i247.AuthRepository>()));
     gh.factory<_i490.SendOtpEmailUseCase>(
         () => _i490.SendOtpEmailUseCase(gh<_i247.AuthRepository>()));
-    gh.factory<_i509.SignOutUseCase>(
-        () => _i509.SignOutUseCase(gh<_i247.AuthRepository>()));
+    gh.factory<_i203.ConfirmOtpEmailUseCase>(
+        () => _i203.ConfirmOtpEmailUseCase(gh<_i247.AuthRepository>()));
     gh.factory<_i494.AuthNotifier>(() => _i494.AuthNotifier(
           gh<_i341.SignInWithGoogleUseCase>(),
           gh<_i509.SignOutUseCase>(),
           gh<_i506.DeleteAccountUseCase>(),
           gh<_i1001.GetCurrentSessionUseCase>(),
           gh<_i490.SendOtpEmailUseCase>(),
+          gh<_i203.ConfirmOtpEmailUseCase>(),
         ));
     return this;
   }
@@ -96,4 +109,4 @@ extension GetItInjectableX on _i174.GetIt {
 
 class _$DatabaseModule extends _i1050.DatabaseModule {}
 
-class _$DioModule extends _i315.DioModule {}
+class _$DioModule extends _i1011.DioModule {}

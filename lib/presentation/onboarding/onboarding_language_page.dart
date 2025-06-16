@@ -4,7 +4,7 @@ import 'package:habitree/routes/route_paths.dart';
 class OnboardingLanguagePage extends StatelessWidget {
   const OnboardingLanguagePage({required this.langName, super.key});
 
-  static String path = RoutePaths.onboardingLanguage;
+  static String path = RoutePaths.language;
 
   final String langName;
 

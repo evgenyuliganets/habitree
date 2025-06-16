@@ -1,10 +1,29 @@
 {
+  "general": {
+    "ok": "OK",
+    "cancel": "Cancel",
+    "yes": "Yes",
+    "no": "No",
+    "close": "Close",
+    "save": "Save",
+    "edit": "Edit",
+    "delete": "Delete",
+    "loading": "Loading...",
+    "search": "Search...",
+    "back": "Back",
+    "next": "Next",
+    "continue": "Continue",
+    "logout": "Logout"
+  },
   "authStart": {
     "hello": "Hello!",
     "continueApple": "Apple",
     "continueGoogle": "Google",
     "continueFacebook": "Facebook",
-    "continueWith": "Continue with"
+    "continueWith": "Continue with",
+    "pass6DigitCode": "Enter 6-digit code",
+    "letterWithCodeSent": "A letter with the code is already in your inbox. Enter it here.",
+    "or": "Or"
   },
   "errors": {
     "sessionExpired": "Session expired. Please log in again.",
@@ -25,5 +44,11 @@
     "day": "Day",
     "month": "Month",
     "year": "Year"
+  },
+  "bottomNav": {
+    "home": "Home",
+    "calendar": "Calendar",
+    "stats": "Progress",
+    "profile": "Profile"
   }
 }
