@@ -16,11 +16,11 @@ class DioClient {
   }
 
   Future<Response<T>> post<T>(
-      String path, {
-        Map<String, dynamic>? data,
-        Map<String, dynamic>? queryParameters,
-        Options? options,
-      }) {
+    String path, {
+    Map<String, dynamic>? data,
+    Map<String, dynamic>? queryParameters,
+    Options? options,
+  }) {
     return _dio.post<T>(
       path,
       data: data,

@@ -1,5 +1,4 @@
 import 'package:habitree/core/theme/export_ui_styleguide.dart';
-import 'package:habitree/core/theme/extensions/theme_extension.dart';
 import 'package:habitree/i18n/strings.g.dart';
 
 class LanguageSelector extends StatelessWidget {

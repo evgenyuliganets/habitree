@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:habitree/core/constants/constants.dart';
+import 'package:habitree/core/error/failure_types.dart';
 import 'package:habitree/core/network/dio_client.dart';
 import 'package:habitree/core/network/safe_call.dart';
 import 'package:habitree/core/result/result.dart';
@@ -52,21 +53,20 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
 
   @override
   Future<Result<void>> signOut() async {
-    try {
-      final refreshToken = await _authLocalDataSource.getRefreshToken();
+    final refreshToken = await _authLocalDataSource.getRefreshToken();
 
-      if (refreshToken != null) {
+    if (refreshToken != null) {
+      return safeCall(() async {
         await _dioClient.post<Map<String, dynamic>>(
           '/auth/v1/logout',
           data: {'refresh_token': refreshToken},
         );
-      }
-    } on Exception catch (_) {
-    } finally {
-      await _authLocalDataSource.clearSession();
+      });
+    } else {
+      return const FailureResult(
+        DatabaseFailure(userMessage: 'No refresh token found'),
+      );
     }
-
-    return const Success(null);
   }
 
   @override

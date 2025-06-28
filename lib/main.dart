@@ -1,14 +1,14 @@
 import 'package:flutter/services.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:habitree/core/constants/constants.dart';
 import 'package:habitree/core/theme/app_theme.dart';
 import 'package:habitree/core/theme/export_ui_styleguide.dart';
-import 'package:habitree/core/theme/extensions/app_theme_extension.dart';
-import 'package:habitree/core/theme/extensions/theme_extension.dart';
 import 'package:habitree/di/di.dart';
-import 'package:habitree/i18n/strings.g.dart';
 import 'package:habitree/routes/route_generator.dart';
 import 'package:habitree/routes/route_paths.dart';
+
+final themeModeProvider = StateProvider<ThemeMode>((ref) => ThemeMode.system);
 
 /// Entry point of the application.
 void main() {
@@ -19,23 +19,27 @@ void main() {
 }
 
 /// Root widget of the Habitree app.
-class HabitreeApp extends StatefulWidget {
+class HabitreeApp extends ConsumerStatefulWidget {
   const HabitreeApp({super.key});
 
   @override
-  State<HabitreeApp> createState() => _HabitreeAppState();
+  ConsumerState<HabitreeApp> createState() => _HabitreeAppState();
 }
 
-class _HabitreeAppState extends State<HabitreeApp> {
-  ThemeMode? _themeMode;
+class _HabitreeAppState extends ConsumerState<HabitreeApp> {
+  @override
+  void initState() {
+    super.initState();
+    final platformBrightness =
+        WidgetsBinding.instance.platformDispatcher.platformBrightness;
 
-  void _toggleTheme() {
-    setState(() {
-      _themeMode =
-          _themeMode == ThemeMode.light ? ThemeMode.dark : ThemeMode.light;
-      final isDarkMode = _themeMode == ThemeMode.dark;
-      updateSystemUIOverlay(isDarkMode: isDarkMode);
-    });
+    final currentMode = ref.read(themeModeProvider);
+
+    final isDark = currentMode == ThemeMode.dark ||
+        (currentMode == ThemeMode.system &&
+            platformBrightness == Brightness.dark);
+
+    updateSystemUIOverlay(isDarkMode: isDark);
   }
 
   void updateSystemUIOverlay({required bool isDarkMode}) {
@@ -52,61 +56,19 @@ class _HabitreeAppState extends State<HabitreeApp> {
   }
 
   @override
-  void initState() {
-    super.initState();
-    final platformBrightness =
-        WidgetsBinding.instance.platformDispatcher.platformBrightness;
-    final isDark = _themeMode == ThemeMode.dark ||
-        (_themeMode == null && platformBrightness == Brightness.dark);
-    updateSystemUIOverlay(isDarkMode: isDark);
-  }
-
-  @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(
       designSize: AppConstants.designSize,
       builder: (context, child) {
         return MaterialApp(
+          localizationsDelegates: GlobalMaterialLocalizations.delegates,
+          supportedLocales: AppLocaleUtils.supportedLocales,
+          locale: TranslationProvider.of(context).flutterLocale,
           debugShowCheckedModeBanner: false,
           title: 'Habitree',
           theme: AppTheme.lightTheme,
           darkTheme: AppTheme.darkTheme,
-          themeMode: _themeMode ?? ThemeMode.system,
-          builder: (BuildContext context, Widget? child) {
-            final darkMode = (_themeMode == ThemeMode.dark) ||
-                (_themeMode == null &&
-                    WidgetsBinding
-                            .instance.platformDispatcher.platformBrightness ==
-                        Brightness.dark);
-            return Stack(
-              children: [
-                child!,
-                Positioned(
-                  top: 40.h,
-                  right: 12.w,
-                  child: GestureDetector(
-                    onTap: _toggleTheme,
-                    child: Container(
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
-                      decoration: BoxDecoration(
-                        color: context.theme
-                            .extension<AppThemeExtension>()!
-                            .borderColor,
-                        borderRadius: BorderRadius.circular(12.r),
-                      ),
-                      child: Text(
-                        darkMode ? 'Light ☀️' : 'Dark 🌙',
-                        style: context.bodySmall.copyWith(
-                          color: context.themeExtension.lightGrayColor,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            );
-          },
+          themeMode: ref.watch(themeModeProvider) ?? ThemeMode.system,
           initialRoute: RoutePaths.splash,
           onGenerateRoute: RouteGenerator().generateRoute,
         );

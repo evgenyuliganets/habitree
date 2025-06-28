@@ -1,5 +1,4 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:habitree/domain/entities/auth/email_auth_status.dart';
 import 'package:habitree/domain/entities/auth/session.dart';
 
 part 'auth_state.freezed.dart';

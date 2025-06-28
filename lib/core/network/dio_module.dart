@@ -11,7 +11,7 @@ abstract class DioModule {
   @lazySingleton
   Dio dio(AuthLocalDataSource sessionStorage) {
     final dioOptions = BaseOptions(
-      baseUrl: AppConstants.baseUrl, // або з flavor/env
+      baseUrl: AppConstants.baseUrl,
       connectTimeout: const Duration(seconds: 30),
       receiveTimeout: const Duration(seconds: 45),
       headers: {

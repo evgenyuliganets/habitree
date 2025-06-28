@@ -22,6 +22,9 @@ class _SplashPageState extends ConsumerState<SplashPage> {
   Future<void> _checkSession() async {
     final authNotifier = ref.read(authNotifierProvider.notifier);
     await authNotifier.loadCurrentSession();
+    // final localDataSource = getIt<AuthLocalDataSource>();
+    // await localDataSource.saveAccessToken('423432423542323f23f23f32'
+    //     'f23f34f34f34');
 
     final state = ref.read(authNotifierProvider);
     final session = state.maybeWhen(

@@ -46,9 +46,23 @@
     "year": "Рік"
   },
   "bottomNav": {
-    "home": "Home",
-    "calendar": "Calendar",
-    "stats": "Progress",
-    "profile": "Profile"
+    "home": "Головна",
+    "calendar": "Календар",
+    "stats": "Прогрес",
+    "profile": "Профіль"
+  },
+  "home": {
+    "welcome": "Вітаю, {name}!",
+    "dailyMotivation": "Щодня закривай свої цілі й збирай бонуси – покажи, що ти можеш більше, ніж думаєш!😉",
+    "dayCounter": "День {number}",
+    "createGoal": "+ Створити нову ціль",
+    "restAndChallenge": "😌 Ну що, відпочиваємо?",
+    "selfChallenge": "А як щодо виклику самому собі?",
+    "selfChallengeDesc": "Створи свій список справ і здивуй своїми результатами навіть себе!"
+  },
+  "habit": {
+    "time_schedule": "{time}, {schedule}",
+    "every_day": "щодня",
+    "one_time": "одноразово"
   }
 }

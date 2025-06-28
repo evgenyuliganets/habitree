@@ -50,7 +50,8 @@ class AuthInterceptor extends Interceptor {
         final token = await authStorage.getAccessToken();
         req.options.headers['Authorization'] = 'Bearer $token';
         try {
-          final response = await dio.fetch<Response<dynamic>>(req.options);
+          req.options.responseType = ResponseType.json;
+          final response = await dio.fetch<dynamic>(req.options);
           req.handler.resolve(response);
         } on DioException catch (e) {
           req.handler.reject(e);

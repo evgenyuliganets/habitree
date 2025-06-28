@@ -17,7 +17,7 @@ TextTheme get habitreeTextTheme => TextTheme(
         fontFamily: 'Manrope',
         fontSize: 20.sp,
         fontWeight: FontWeight.w400,
-        height: 1,
+        height: 22 / 20,
       ),
       titleMedium: TextStyle(
         fontFamily: 'Manrope',
@@ -29,6 +29,7 @@ TextTheme get habitreeTextTheme => TextTheme(
         fontFamily: 'Manrope',
         fontSize: 16.sp,
         fontWeight: FontWeight.w400,
+        height: 20 / 16,
       ),
       bodyMedium: TextStyle(
         fontFamily: 'Manrope',

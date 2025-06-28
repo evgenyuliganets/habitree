@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
@@ -10,6 +11,12 @@ Future<Result<T>> safeCall<T>(Future<T> Function() request) async {
     final data = await request();
     return Success(data);
   } on DioException catch (e, stack) {
+    log(
+      'DioException occurred: ${e.message}',
+      name: 'safeCall',
+      error: e,
+      stackTrace: stack,
+    );
     final status = e.response?.statusCode;
     final res = e.response;
 

@@ -1,6 +1,5 @@
 import 'package:habitree/core/theme/app_text_theme.dart';
 import 'package:habitree/core/theme/export_ui_styleguide.dart';
-import 'package:habitree/core/theme/extensions/app_theme_extension.dart';
 
 class AppTheme {
   static ThemeData get lightTheme {
@@ -66,6 +65,11 @@ class AppTheme {
           borderColor: AppColors.black,
           lightGrayColor: AppColors.lightGrayLight,
           grayColor: AppColors.grayLight,
+          grayBorderColor: AppColors.lightGrayBorder,
+          grayBorder10: AppColors.lightGrayBorder10,
+          grayBorder15: AppColors.lightGrayBorder15,
+          grayBorder20: AppColors.lightGrayBorder20,
+          grayBorder30: AppColors.lightGrayBorder30,
         ),
       ],
       elevatedButtonTheme: ElevatedButtonThemeData(
@@ -169,6 +173,11 @@ class AppTheme {
           borderColor: AppColors.white,
           lightGrayColor: AppColors.lightGrayDark,
           grayColor: AppColors.grayDark,
+          grayBorderColor: AppColors.darkGrayBorder,
+          grayBorder10: AppColors.darkGrayBorder10,
+          grayBorder15: AppColors.darkGrayBorder15,
+          grayBorder20: AppColors.darkGrayBorder20,
+          grayBorder30: AppColors.darkGrayBorder30,
         ),
       ],
       elevatedButtonTheme: ElevatedButtonThemeData(

@@ -1,7 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:habitree/core/theme/export_ui_styleguide.dart';
-import 'package:habitree/core/theme/extensions/theme_extension.dart';
-import 'package:habitree/i18n/strings.g.dart';
 import 'package:habitree/presentation/auth/providers/auth_notifier.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 

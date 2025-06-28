@@ -70,10 +70,10 @@ class AuthNotifier extends StateNotifier<AuthState> {
 
   Future<void> signOut() async {
     final result = await _signOutUseCase.call();
-    result?.mapResult(
-      success: (_) => state = const AuthInitial(),
-      failure: (f) => state = AuthError(message: f.userMessage),
-    );
+    // result?.mapResult(
+    //   success: (_) => state = const AuthInitial(),
+    //   failure: (f) => state = AuthError(message: f.userMessage),
+    // );
   }
 
   Future<void> deleteAccount() async {

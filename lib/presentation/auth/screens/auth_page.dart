@@ -1,6 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:habitree/core/theme/export_ui_styleguide.dart';
-import 'package:habitree/i18n/strings.g.dart';
 import 'package:habitree/presentation/auth/providers/auth_notifier.dart';
 import 'package:habitree/presentation/auth/providers/auth_state.dart';
 import 'package:habitree/presentation/auth/widgets/google_sign_in_button.dart';

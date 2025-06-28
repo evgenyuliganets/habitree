@@ -1,7 +1,5 @@
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:habitree/core/theme/export_ui_styleguide.dart';
-import 'package:habitree/core/theme/extensions/app_theme_extension.dart';
-import 'package:habitree/i18n/strings.g.dart';
 
 class SignInButton extends StatelessWidget {
   const SignInButton({

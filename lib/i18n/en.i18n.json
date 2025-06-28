@@ -50,5 +50,19 @@
     "calendar": "Calendar",
     "stats": "Progress",
     "profile": "Profile"
+  },
+  "home": {
+    "welcome": "Welcome, {name}!",
+    "dailyMotivation": "Complete your goals every day and collect bonuses — show you can do more than you think!😉",
+    "dayCounter": "Day {number}",
+    "createGoal": "+ Create a new goal",
+    "restAndChallenge": "😌 Time to relax?",
+    "selfChallenge": "How about a challenge for yourself?",
+    "selfChallengeDesc": "Create your own to-do list and surprise yourself with the results!"
+  },
+  "habit": {
+    "time_schedule": "{time}, {schedule}",
+    "every_day": "every day",
+    "one_time": "one-time"
   }
 }
