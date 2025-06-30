@@ -1,21 +1,18 @@
-import 'package:flutter/material.dart';
 import 'package:habitree/data/models/habit/habit_dto.dart';
 import 'package:habitree/domain/entities/habit/habit.dart';
+import 'package:habitree/shared/extensions/hex_color_extension.dart';
+import 'package:habitree/shared/extensions/time_of_day_extensions.dart';
 
 extension HabitDtoMapper on HabitDto {
   HabitEntity toEntity() {
-    final timeParts = timeOfDay.split(':');
-    final hour = int.parse(timeParts[0]);
-    final minute = int.parse(timeParts[1]);
-
     return HabitEntity(
       id: id,
       title: title,
       emoji: emoji,
-      color: Color(int.parse(color)),
+      color: HexColor.fromHex(color),
       repeatDays: repeatDays.map((d) => Weekday.values.byName(d)).toList(),
       isDaily: isDaily,
-      time: TimeOfDay(hour: hour, minute: minute),
+      time: TimeOfDayExtensions.parse(timeOfDay),
       term: HabitTerm.values.byName(term),
       isOneTime: isOneTime,
       isArchived: isArchived,
@@ -33,11 +30,10 @@ extension HabitEntityMapper on HabitEntity {
       userId: userId,
       title: title,
       emoji: emoji,
-      color: color.value.toString(),
+      color: color.toHex(),
       repeatDays: repeatDays.map((d) => d.name).toList(),
       isDaily: isDaily,
-      timeOfDay: '${time.hour.toString().padLeft(2, '0')}'
-          ':${time.minute.toString().padLeft(2, '0')}',
+      timeOfDay: time.formatString(),
       term: term.name,
       isOneTime: isOneTime,
       isArchived: isArchived,

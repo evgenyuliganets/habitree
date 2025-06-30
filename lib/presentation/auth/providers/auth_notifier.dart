@@ -11,6 +11,7 @@ import 'package:habitree/domain/usecases/auth/send_otp_email.dart';
 import 'package:habitree/domain/usecases/auth/sign_in_with_google_usecase.dart';
 import 'package:habitree/domain/usecases/auth/sign_out_usecase.dart';
 import 'package:habitree/presentation/auth/providers/auth_state.dart';
+import 'package:habitree/shared/utils/app_utils.dart';
 import 'package:injectable/injectable.dart';
 
 @injectable
@@ -69,7 +70,7 @@ class AuthNotifier extends StateNotifier<AuthState> {
   }
 
   Future<void> signOut() async {
-    final result = await _signOutUseCase.call();
+    AppUtils.logout();
     // result?.mapResult(
     //   success: (_) => state = const AuthInitial(),
     //   failure: (f) => state = AuthError(message: f.userMessage),

@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:habitree/core/result/result.dart';
 import 'package:habitree/di/di.dart';
+import 'package:habitree/domain/entities/habit_status/habit_status.dart';
 import 'package:habitree/domain/usecases/habits/get_habits_status_usecase.dart';
 import 'package:habitree/presentation/home/habits_ui/provider/habits_by_date_state.dart';
 import 'package:injectable/injectable.dart';
@@ -88,6 +89,42 @@ class HabitsByDateNotifier extends StateNotifier<HabitsByDateState> {
     );
 
     _isLoadingNext = false;
+  }
+
+  void toggleHabit(HabitStatus habit, DateTime selectedDate) {
+    var currentHabits = <HabitStatus>[];
+    var offset = 0;
+    var hasMore = false;
+
+    state.maybeWhen(
+      loaded: (habits, off, tot, more) {
+        currentHabits = habits;
+        offset = off;
+        // total = tot;
+        hasMore = more;
+      },
+      orElse: () {
+        log('❌ Cannot toggle habit when state is not loaded');
+        return;
+      },
+    );
+
+    final updatedHabits = currentHabits.map((h) {
+      if (h.id == habit.id) {
+        return h.copyWith(
+          isCompleted: !h.completed,
+          lastUpdated: DateTime.now(),
+        );
+      }
+      return h;
+    }).toList();
+
+    state = HabitsByDateState.loaded(
+      habits: updatedHabits,
+      offset: offset,
+      total: updatedHabits.length,
+      hasMore: hasMore,
+    );
   }
 }
 

@@ -101,14 +101,14 @@ extension GetItInjectableX on _i174.GetIt {
           gh<_i247.AuthRepository>(),
           gh<_i205.GoogleSignInService>(),
         ));
+    gh.factory<_i203.ConfirmOtpEmailUseCase>(
+        () => _i203.ConfirmOtpEmailUseCase(gh<_i247.AuthRepository>()));
     gh.factory<_i506.DeleteAccountUseCase>(
         () => _i506.DeleteAccountUseCase(gh<_i247.AuthRepository>()));
     gh.factory<_i1001.GetCurrentSessionUseCase>(
         () => _i1001.GetCurrentSessionUseCase(gh<_i247.AuthRepository>()));
     gh.factory<_i490.SendOtpEmailUseCase>(
         () => _i490.SendOtpEmailUseCase(gh<_i247.AuthRepository>()));
-    gh.factory<_i203.ConfirmOtpEmailUseCase>(
-        () => _i203.ConfirmOtpEmailUseCase(gh<_i247.AuthRepository>()));
     gh.factory<_i892.HabitsRepository>(
         () => _i409.HabitRepositoryImpl(gh<_i349.HabitsRemoteDataSource>()));
     gh.factory<_i494.AuthNotifier>(() => _i494.AuthNotifier(

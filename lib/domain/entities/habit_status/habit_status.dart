@@ -36,12 +36,30 @@ class HabitStatus {
         emoji: '😊',
         color: AppColors.grayLight,
         time: TimeOfDay(hour: index % 24, minute: index % 60),
-        completed: true,
+        completed: false,
         isDaily: index % 3 == 0,
         repeatDays: ['Monday', 'Wednesday', 'Friday'],
         term: '2023-01-01 to 2023-12-31',
         isOneTime: index % 5 == 0,
       ),
+    );
+  }
+
+  HabitStatus copyWith({
+    bool? isCompleted,
+    DateTime? lastUpdated,
+  }) {
+    return HabitStatus(
+      id: id,
+      title: title,
+      emoji: emoji,
+      color: color,
+      time: time,
+      completed: isCompleted ?? completed,
+      isDaily: isDaily,
+      repeatDays: repeatDays,
+      term: term,
+      isOneTime: isOneTime,
     );
   }
 }

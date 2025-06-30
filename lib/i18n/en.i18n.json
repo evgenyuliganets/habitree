@@ -56,7 +56,7 @@
     "dailyMotivation": "Complete your goals every day and collect bonuses — show you can do more than you think!😉",
     "dayCounter": "Day {number}",
     "createGoal": "+ Create a new goal",
-    "restAndChallenge": "😌 Time to relax?",
+    "restAndChallenge": "\uD83D\uDE0F Time to relax?",
     "selfChallenge": "How about a challenge for yourself?",
     "selfChallengeDesc": "Create your own to-do list and surprise yourself with the results!"
   },
@@ -64,5 +64,24 @@
     "time_schedule": "{time}, {schedule}",
     "every_day": "every day",
     "one_time": "one-time"
+  },
+  "createHabitStart": {
+    "title": "Create your daily plan",
+    "subtitle": "You can choose a template or create a custom habit",
+    "chooseTemplate": "Choose Template",
+    "createCustom": "Create Custom Habit"
+  },
+  "habitCreationFilling": {
+    "title": "Create your own habit",
+    "subtitle": "You can set your schedule and customize your habit!",
+    "nameLabel": "What shall we call your new habit?",
+    "nameHint": "Enter habit name",
+    "pickColorIconLabel": "Pick a color and icon you like",
+    "color": "Color",
+    "icon": "Icon",
+    "frequencyLabel": "When and how often do you want to do it?",
+    "selectFrequency": "Select frequency",
+    "selectTime": "Select time",
+    "selectTerm": "Select term"
   }
 }

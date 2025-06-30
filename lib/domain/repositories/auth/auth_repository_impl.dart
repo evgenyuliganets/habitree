@@ -49,11 +49,8 @@ class AuthRepositoryImpl implements AuthRepository {
 
   @override
   Future<Result<void>> signOut() async {
+    await _local.clearSession();
     final remoteResult = await _remote.signOut();
-
-    if (remoteResult is Success<void>) {
-      await _local.clearSession();
-    }
 
     return remoteResult;
   }

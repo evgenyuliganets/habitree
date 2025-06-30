@@ -35,7 +35,8 @@ class _SplashPageState extends ConsumerState<SplashPage> {
     if (!mounted) return;
 
     if (session != null) {
-      log('User is already logged in: ${session.accessToken}');
+      log('ACCESS TOKEN ${session.accessToken}');
+      log('REFRESH TOKEN ${session.refreshToken}');
       await Navigator.of(context).pushReplacementNamed(RoutePaths.home);
     } else {
       log('No active session found, redirecting to auth page');

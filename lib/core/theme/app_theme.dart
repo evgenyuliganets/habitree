@@ -1,10 +1,29 @@
 import 'package:habitree/core/theme/app_text_theme.dart';
 import 'package:habitree/core/theme/export_ui_styleguide.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 class AppTheme {
   static ThemeData get lightTheme {
     final base = ThemeData.light(useMaterial3: true);
     return base.copyWith(
+      dialogTheme: DialogTheme(
+        titleTextStyle: habitreeTextTheme.headlineMedium?.copyWith(
+          fontWeight: FontWeight.w600,
+          color: AppColors.black,
+        ),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20.r),
+          side: BorderSide(
+            // to keep if changed in the future
+            // ignore: avoid_redundant_argument_values
+            color: AppColors.black,
+            width: 1.w,
+          ),
+        ),
+        backgroundColor: AppColors.white,
+        elevation: 0,
+        surfaceTintColor: Colors.transparent,
+      ),
       scaffoldBackgroundColor: AppColors.background,
       colorScheme: base.colorScheme.copyWith(
         primary: AppColors.primaryDark,
@@ -71,6 +90,12 @@ class AppTheme {
           grayBorder20: AppColors.lightGrayBorder20,
           grayBorder30: AppColors.lightGrayBorder30,
         ),
+        SkeletonizerConfigData(
+          effect: ShimmerEffect(
+            baseColor: AppColors.lightGrayBorder,
+            highlightColor: AppColors.lightGrayBorder10,
+          ),
+        ),
       ],
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ButtonStyle(
@@ -125,6 +150,22 @@ class AppTheme {
   static ThemeData get darkTheme {
     final base = ThemeData.dark(useMaterial3: true);
     return base.copyWith(
+      dialogTheme: DialogTheme(
+        titleTextStyle: habitreeTextTheme.headlineMedium?.copyWith(
+          fontWeight: FontWeight.w600,
+          color: AppColors.white,
+        ),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20.r),
+          side:  BorderSide(
+            color: AppColors.white,
+            width: 1.w,
+          ),
+        ),
+        backgroundColor: AppColors.darkBackground,
+        elevation: 0,
+        surfaceTintColor: Colors.transparent,
+      ),
       scaffoldBackgroundColor: AppColors.darkBackground,
       colorScheme: base.colorScheme.copyWith(
         primary: AppColors.primary,
@@ -178,6 +219,12 @@ class AppTheme {
           grayBorder15: AppColors.darkGrayBorder15,
           grayBorder20: AppColors.darkGrayBorder20,
           grayBorder30: AppColors.darkGrayBorder30,
+        ),
+        SkeletonizerConfigData(
+          effect: ShimmerEffect(
+            baseColor: AppColors.lightGrayBorder,
+            highlightColor: AppColors.lightGrayBorder10,
+          ),
         ),
       ],
       elevatedButtonTheme: ElevatedButtonThemeData(

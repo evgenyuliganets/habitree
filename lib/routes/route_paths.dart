@@ -11,4 +11,8 @@ abstract final class RoutePaths {
   static const String auth = '/auth';
 
   static const String confirmOtp = '/confirm-otp';
+
+  static const String createHabit = '/create-habit';
+
+  static const String habitCreationFilling = '/habit-filling';
 }

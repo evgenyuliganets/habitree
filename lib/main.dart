@@ -7,6 +7,7 @@ import 'package:habitree/core/theme/export_ui_styleguide.dart';
 import 'package:habitree/di/di.dart';
 import 'package:habitree/routes/route_generator.dart';
 import 'package:habitree/routes/route_paths.dart';
+import 'package:habitree/shared/utils/navigation/navigation_service.dart';
 
 final themeModeProvider = StateProvider<ThemeMode>((ref) => ThemeMode.system);
 
@@ -61,6 +62,7 @@ class _HabitreeAppState extends ConsumerState<HabitreeApp> {
       designSize: AppConstants.designSize,
       builder: (context, child) {
         return MaterialApp(
+          navigatorKey: NavigationService.navigatorKey,
           localizationsDelegates: GlobalMaterialLocalizations.delegates,
           supportedLocales: AppLocaleUtils.supportedLocales,
           locale: TranslationProvider.of(context).flutterLocale,
@@ -76,32 +78,3 @@ class _HabitreeAppState extends ConsumerState<HabitreeApp> {
     );
   }
 }
-
-// class _HabitreeAppState extends State<HabitreeApp> {
-//   ThemeMode? _themeMode;
-//
-//   void _toggleTheme() {
-//     setState(() {
-//       _themeMode =
-//       _themeMode == ThemeMode.light ? ThemeMode.dark : ThemeMode.light;
-//     });
-//   }
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return ScreenUtilInit(
-//       designSize: AppConstants.designSize,
-//       builder: (context, child) {
-//         return MaterialApp(
-//           debugShowCheckedModeBanner: false,
-//           title: 'Habitree',
-//           theme: AppTheme.lightTheme,
-//           darkTheme: AppTheme.darkTheme,
-//           home: child,
-//           initialRoute: '/splash',
-//           onGenerateRoute: RouteGenerator().generateRoute,
-//         );
-//       },
-//     );
-//   }
-// }

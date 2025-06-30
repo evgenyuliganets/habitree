@@ -20,6 +20,9 @@ dependencies:
   pin_code_fields: ^8.0.1
   skeletonizer: ^1.4.3
 
+  # Unique IDs
+  uuid: ^4.3.3
+
   # State Management
   flutter_riverpod: ^2.6.1
 
@@ -76,6 +79,7 @@ flutter:
     - assets/icons/auth/
     - assets/icons/common/
     - assets/icons/dashboard/
+    - assets/icons/home/
 
 fonts:
   - family: Manrope

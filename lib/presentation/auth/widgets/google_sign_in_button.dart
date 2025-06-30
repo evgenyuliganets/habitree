@@ -40,8 +40,6 @@ class SignInButton extends StatelessWidget {
           decoration: BoxDecoration(
             borderRadius: BorderRadius.all(Radius.circular(20.0.r)),
             border: Border.all(
-              //to keep if changed in the future
-              // ignore: avoid_redundant_argument_values
               color: context.theme.extension<AppThemeExtension>()!.borderColor,
               width: 1.5.w,
             ),

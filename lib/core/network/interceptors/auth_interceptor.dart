@@ -1,5 +1,9 @@
 import 'package:dio/dio.dart';
+import 'package:habitree/core/constants/constants.dart';
+import 'package:habitree/core/theme/export_ui_styleguide.dart';
 import 'package:habitree/data/data_sources/auth/local/auth_local_datasource.dart';
+import 'package:habitree/shared/utils/app_utils.dart';
+import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
 class AuthInterceptor extends Interceptor {
   AuthInterceptor(this.authStorage, this.dio);
@@ -69,25 +73,46 @@ class AuthInterceptor extends Interceptor {
 
   Future<bool> _refreshToken(String? refreshToken) async {
     try {
-      final response = await dio.post<Map<String, dynamic>>(
-        '/auth/v1/token?grant_type=refresh_token',
-        data: {
-          'refresh_token': refreshToken,
-        },
+      final rawDio = Dio();
+      rawDio.options.validateStatus = (status) => true;
+
+      rawDio.interceptors.add(
+        PrettyDioLogger(
+          requestHeader: true,
+          requestBody: true,
+        ),
       );
+      final response = await rawDio.post<Map<String, dynamic>?>(
+        '${AppConstants.baseUrl}/auth/v1/token?'
+        'grant_type=refresh_token',
+        data: {'refresh_token': refreshToken},
+        options: Options(
+          headers: {
+            'apikey': AppConstants.supabaseAnonKey,
+            'Content-Type': 'application/json',
+          },
+        ),
+      );
+
+      final isSuccess = response.statusCode == 200;
+      log('Refresh token response: ${response.data}');
+      log('Refresh token success: $isSuccess');
+
+      if (!isSuccess) {
+        AppUtils.logout();
+        return false;
+      }
 
       final accessToken = response.data?['access_token'] as String?;
       final newRefreshToken = response.data?['refresh_token'] as String?;
 
-      if (accessToken == null || newRefreshToken == null) {
-        return false;
-      }
+      if (accessToken == null || newRefreshToken == null) return false;
 
       await authStorage.saveAccessToken(accessToken);
       await authStorage.saveRefreshToken(newRefreshToken);
 
       return true;
-    } on Exception {
+    } on Exception catch (_) {
       return false;
     }
   }
