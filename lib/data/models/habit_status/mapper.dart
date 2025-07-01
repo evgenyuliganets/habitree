@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:habitree/data/models/habit_status/habit_status_dto.dart';
+import 'package:habitree/domain/entities/habit/habit.dart';
 import 'package:habitree/domain/entities/habit_status/habit_status.dart';
 
 extension HabitStatusDtoMapper on HabitStatusDto {
@@ -16,7 +17,7 @@ extension HabitStatusDtoMapper on HabitStatusDto {
       ),
       completed: completed,
       isDaily: isDaily,
-      repeatDays: repeatDays,
+      repeatDays: weekDaysFromJson(repeatDays),
       term: term,
       isOneTime: isOneTime,
     );
@@ -36,7 +37,7 @@ extension HabitStatusEntityMapper on HabitStatus {
       timeOfDay: timeFormatted,
       completed: completed,
       isDaily: isDaily,
-      repeatDays: repeatDays,
+      repeatDays: weekDaysToJson(repeatDays),
       term: term,
       isOneTime: isOneTime,
     );

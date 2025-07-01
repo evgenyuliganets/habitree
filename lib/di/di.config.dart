@@ -48,10 +48,14 @@ import 'package:habitree/domain/usecases/auth/send_otp_email.dart' as _i490;
 import 'package:habitree/domain/usecases/auth/sign_in_with_google_usecase.dart'
     as _i341;
 import 'package:habitree/domain/usecases/auth/sign_out_usecase.dart' as _i509;
+import 'package:habitree/domain/usecases/habits/create_habit_usecase.dart'
+    as _i492;
 import 'package:habitree/domain/usecases/habits/get_habits_status_usecase.dart'
     as _i630;
 import 'package:habitree/presentation/auth/providers/auth_notifier.dart'
     as _i494;
+import 'package:habitree/presentation/create_habbit/provider/create_habit_notifier.dart'
+    as _i282;
 import 'package:habitree/presentation/home/habits_ui/provider/habits_by_date_notifier.dart'
     as _i1043;
 import 'package:injectable/injectable.dart' as _i526;
@@ -73,7 +77,7 @@ extension GetItInjectableX on _i174.GetIt {
         () => _i205.GoogleSignInService());
     gh.lazySingleton<_i558.FlutterSecureStorage>(
         () => databaseModule.secureStorage);
-    gh.factory<_i174.AuthLocalDataSource>(() =>
+    gh.lazySingleton<_i174.AuthLocalDataSource>(() =>
         _i197.SecureAuthLocalDataSource(gh<_i558.FlutterSecureStorage>()));
     gh.lazySingleton<_i361.Dio>(
         () => dioModule.dio(gh<_i174.AuthLocalDataSource>()));
@@ -121,8 +125,12 @@ extension GetItInjectableX on _i174.GetIt {
         ));
     gh.factory<_i630.GetUserHabitsByDateUseCase>(
         () => _i630.GetUserHabitsByDateUseCase(gh<_i892.HabitsRepository>()));
+    gh.factory<_i492.CreateHabitUseCase>(
+        () => _i492.CreateHabitUseCase(gh<_i892.HabitsRepository>()));
     gh.factory<_i1043.HabitsByDateNotifier>(() =>
         _i1043.HabitsByDateNotifier(gh<_i630.GetUserHabitsByDateUseCase>()));
+    gh.factory<_i282.CreateHabitNotifier>(
+        () => _i282.CreateHabitNotifier(gh<_i492.CreateHabitUseCase>()));
     return this;
   }
 }

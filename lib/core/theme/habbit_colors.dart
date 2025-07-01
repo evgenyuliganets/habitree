@@ -33,6 +33,7 @@ class HabitColors {
     purpleLight,
     pinkLight,
     redLight,
+    yellowLight,
   ];
 
   static const Color defaultColor = green;

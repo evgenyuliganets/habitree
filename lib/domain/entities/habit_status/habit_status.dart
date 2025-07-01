@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:habitree/core/theme/app_colors.dart';
+import 'package:habitree/domain/entities/habit/habit.dart';
 
 class HabitStatus {
   const HabitStatus({
@@ -23,7 +24,7 @@ class HabitStatus {
   final bool completed;
 
   final bool isDaily;
-  final List<String> repeatDays;
+  final List<Weekday> repeatDays;
   final String term;
   final bool isOneTime;
 
@@ -38,7 +39,7 @@ class HabitStatus {
         time: TimeOfDay(hour: index % 24, minute: index % 60),
         completed: false,
         isDaily: index % 3 == 0,
-        repeatDays: ['Monday', 'Wednesday', 'Friday'],
+        repeatDays: [Weekday.friday, Weekday.saturday],
         term: '2023-01-01 to 2023-12-31',
         isOneTime: index % 5 == 0,
       ),

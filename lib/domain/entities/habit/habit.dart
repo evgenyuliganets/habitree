@@ -1,4 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+
+List<Weekday> weekDaysFromJson(List<String> json) {
+  return json
+      .map((e) => Weekday.values.firstWhere((d) => d.name == e))
+      .toList();
+}
+
+List<String> weekDaysToJson(List<Weekday> days) {
+  return days.map((e) => e.name).toList();
+}
 
 enum Weekday {
   monday,
@@ -7,7 +18,41 @@ enum Weekday {
   thursday,
   friday,
   saturday,
-  sunday,
+  sunday;
+
+  String getLabel(Locale locale) {
+    final date = DateTime(2024, 7, _dayNumber);
+    final formatter = DateFormat.E(locale.toString());
+
+    return toBeginningOfSentenceCase(formatter.format(date))!;
+  }
+
+  int get _dayNumber {
+    switch (this) {
+      case Weekday.monday:
+        return 1;
+      case Weekday.tuesday:
+        return 2;
+      case Weekday.wednesday:
+        return 3;
+      case Weekday.thursday:
+        return 4;
+      case Weekday.friday:
+        return 5;
+      case Weekday.saturday:
+        return 6;
+      case Weekday.sunday:
+        return 7;
+    }
+  }
+
+  String getFullLabel(Locale locale) {
+    final baseDate = DateTime(2024, 7);
+    final date = baseDate.add(Duration(days: index));
+    return toBeginningOfSentenceCase(
+      DateFormat.EEEE(locale.toString()).format(date),
+    )!;
+  }
 }
 
 enum HabitTerm {

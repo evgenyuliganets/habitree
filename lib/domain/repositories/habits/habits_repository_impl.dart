@@ -1,5 +1,6 @@
 import 'package:habitree/core/result/result.dart';
 import 'package:habitree/data/data_sources/habits/remote/habits_remote_datasource.dart';
+import 'package:habitree/data/models/habit/create_habit.dart';
 import 'package:habitree/domain/entities/habit_status/habit_status.dart';
 import 'package:habitree/domain/entities/paginated_list/paginated_list.dart';
 import 'package:habitree/domain/repositories/habits/habits_repository.dart';
@@ -20,8 +21,7 @@ class HabitRepositoryImpl implements HabitsRepository {
   }
 
   @override
-  Future<Result<void>> addHabit(HabitStatus habitStatus) {
-    // TODO: implement addHabit
-    throw UnimplementedError();
+  Future<Result<bool>> createHabit(CreateHabitDto param) {
+    return _remote.createHabit(param);
   }
 }

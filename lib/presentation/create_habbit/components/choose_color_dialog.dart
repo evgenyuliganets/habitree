@@ -4,7 +4,10 @@ import 'package:habitree/core/theme/habbit_colors.dart';
 import 'package:habitree/presentation/create_habbit/provider/create_habit_notifier.dart';
 import 'package:habitree/shared/widgets/static/double_circle.dart';
 
-Future<dynamic> showChooseColorDialog(BuildContext context) {
+Future<dynamic> showChooseColorDialog(
+  BuildContext context,
+  void Function(BuildContext) onNext,
+) {
   return showDialog(
     context: context,
     builder: (context) {
@@ -18,7 +21,9 @@ Future<dynamic> showChooseColorDialog(BuildContext context) {
           );
           return AlertDialog(
             contentPadding:
-                EdgeInsets.symmetric(vertical: 24.h, horizontal: 16.w),
+                EdgeInsets.symmetric(vertical: 24.h, horizontal: 32.w),
+            titlePadding:
+                EdgeInsets.symmetric(horizontal: 32.w).copyWith(top: 32.h),
             insetPadding: EdgeInsets.symmetric(horizontal: 16.w),
             title: const Text(
               'Обери колір для своєї звички',
@@ -49,12 +54,14 @@ Future<dynamic> showChooseColorDialog(BuildContext context) {
             actions: [
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
+                  padding:
+                      EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(20.r),
                   ),
                 ),
-                onPressed: () => Navigator.of(context).pop(),
-                child: const Text('Далі'),
+                onPressed: () => onNext(context),
+                child: Text(t.general.next),
               ),
             ],
           );

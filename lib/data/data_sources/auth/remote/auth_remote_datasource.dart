@@ -7,7 +7,7 @@ import 'package:habitree/domain/usecases/auth/params/confirm_otp_email_param.dar
 abstract class AuthRemoteDataSource {
   Future<Result<SessionDto>> signInWithGoogle(GoogleTokenDto googleToken);
 
-  Future<Result<void>> signOut();
+  Future<Result<void>> signOut(String refreshToken);
 
   Future<Result<void>> deleteAccount();
 

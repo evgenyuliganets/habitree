@@ -6,6 +6,22 @@ class AppTheme {
   static ThemeData get lightTheme {
     final base = ThemeData.light(useMaterial3: true);
     return base.copyWith(
+      checkboxTheme: CheckboxThemeData(
+        materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+        visualDensity: VisualDensity.compact,
+        fillColor: Colors.transparent.matColor,
+        checkColor: AppColors.black.matColor,
+        side: WidgetStateBorderSide.resolveWith(
+              (states) => BorderSide(
+            // to keep if changed in the future
+            // ignore: avoid_redundant_argument_values
+            color: AppColors.black,
+            width: 1.w,
+            strokeAlign: 4.w,
+          ),
+        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6.r)),
+      ),
       dialogTheme: DialogTheme(
         titleTextStyle: habitreeTextTheme.headlineMedium?.copyWith(
           fontWeight: FontWeight.w600,
@@ -150,6 +166,22 @@ class AppTheme {
   static ThemeData get darkTheme {
     final base = ThemeData.dark(useMaterial3: true);
     return base.copyWith(
+      checkboxTheme: CheckboxThemeData(
+        materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+        visualDensity: VisualDensity.compact,
+         fillColor: Colors.transparent.matColor,
+        checkColor: AppColors.white.matColor,
+        side: WidgetStateBorderSide.resolveWith(
+          (states) => BorderSide(
+            // to keep if changed in the future
+            // ignore: avoid_redundant_argument_values
+            color: AppColors.white,
+            width: 1.w,
+            strokeAlign: 4.w,
+          ),
+        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6.r)),
+      ),
       dialogTheme: DialogTheme(
         titleTextStyle: habitreeTextTheme.headlineMedium?.copyWith(
           fontWeight: FontWeight.w600,
@@ -157,7 +189,7 @@ class AppTheme {
         ),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20.r),
-          side:  BorderSide(
+          side: BorderSide(
             color: AppColors.white,
             width: 1.w,
           ),

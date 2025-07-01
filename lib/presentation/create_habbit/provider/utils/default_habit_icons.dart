@@ -1,4 +1,4 @@
-class DefaultIcons {
+class DefaultHabitIcons {
   static const String running = '🏃‍♂️';
   static const String yoga = '🧘‍♂️';
   static const String painting = '🧑‍🎨';

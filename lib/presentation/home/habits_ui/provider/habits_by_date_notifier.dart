@@ -8,6 +8,12 @@ import 'package:habitree/domain/usecases/habits/get_habits_status_usecase.dart';
 import 'package:habitree/presentation/home/habits_ui/provider/habits_by_date_state.dart';
 import 'package:injectable/injectable.dart';
 
+final habitsByDateProvider =
+StateNotifierProvider.autoDispose<HabitsByDateNotifier, HabitsByDateState>(
+      (ref) => getIt<HabitsByDateNotifier>(),
+);
+
+
 @injectable
 class HabitsByDateNotifier extends StateNotifier<HabitsByDateState> {
   HabitsByDateNotifier(this._getHabitsUseCase)
@@ -127,8 +133,3 @@ class HabitsByDateNotifier extends StateNotifier<HabitsByDateState> {
     );
   }
 }
-
-final habitsByDateProvider =
-    StateNotifierProvider.autoDispose<HabitsByDateNotifier, HabitsByDateState>(
-  (ref) => getIt<HabitsByDateNotifier>(),
-);

@@ -27,14 +27,10 @@ class AuthRepositoryImpl implements AuthRepository {
       GoogleTokenDto.fromDomain(googleToken),
     );
 
-    // Convert Result<SessionDto> -> Result<Session>
     final mapped = remoteResult.map((dto) => dto.toDomain());
-    log(
-      'Sign in with Google result: $mapped',
-      name: 'AuthRepositoryImpl',
-    );
 
-    // Save session if success
+    log('Sign in with Google result: $mapped', name: 'AuthRepositoryImpl');
+
     if (mapped is Success<Session>) {
       await _local.saveSession(mapped.data);
     }
@@ -49,10 +45,14 @@ class AuthRepositoryImpl implements AuthRepository {
 
   @override
   Future<Result<void>> signOut() async {
-    await _local.clearSession();
-    final remoteResult = await _remote.signOut();
+    final refreshToken = await _local.getRefreshToken();
+    final remoteResult = await _remote.signOut(refreshToken!);
 
-    return remoteResult;
+    await _local.clearSession();
+
+    log('Sign out result: $remoteResult', name: 'AuthRepositoryImpl');
+
+    return const Success(null);
   }
 
   @override
@@ -75,10 +75,8 @@ class AuthRepositoryImpl implements AuthRepository {
   Future<Result<Session>> confirmOtpEmail(ConfirmOtpEmailParam param) async {
     final remoteResult = await _remote.confirmOtpEmail(param);
 
-    // Convert Result<SessionDto> -> Result<Session>
     final mapped = remoteResult.map((dto) => dto.toDomain());
 
-    // Save session if success
     if (mapped is Success<Session>) {
       await _local.saveSession(mapped.data);
     }

@@ -8,7 +8,6 @@ import 'package:habitree/presentation/home/habits_ui/provider/habits_by_date_not
 import 'package:habitree/presentation/home/week_day/provider/week_notifier.dart';
 import 'package:habitree/routes/route_paths.dart';
 import 'package:habitree/shared/extensions/date_extensions.dart';
-import 'package:intl/intl.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 class HabitsUi extends ConsumerStatefulWidget {
@@ -32,7 +31,13 @@ class _HabitsUiState extends ConsumerState<HabitsUi> {
       children: [
         InkWell(
           onTap: () {
-            Navigator.of(context).pushNamed(RoutePaths.createHabit);
+            Navigator.of(context)
+                .pushNamed(RoutePaths.createHabit)
+                .then((value) {
+              ref
+                  .read(habitsByDateProvider.notifier)
+                  .loadInitial(weekDayState.selectedDate);
+            });
           },
           child: Container(
             padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
@@ -90,7 +95,7 @@ class _HabitsGridUi extends StatelessWidget {
 
     return GridView.builder(
       shrinkWrap: true,
-      padding:  EdgeInsets.all(16.w),
+      padding: EdgeInsets.all(16.w),
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
         mainAxisSpacing: 16.w,
@@ -199,31 +204,19 @@ class HabitCard extends ConsumerWidget {
   String _formatTimeAndSchedule(HabitStatus habit, BuildContext context) {
     final timeStr = habit.time.format(context);
 
+    final locale = Localizations.localeOf(context);
     String schedule;
     if (habit.isDaily) {
       schedule = t.habit.every_day;
     } else if (habit.repeatDays.isEmpty) {
       schedule = t.habit.one_time;
     } else {
-      final localizedDays =
-          habit.repeatDays.map(_localizedShortDayName).join(', ');
+      final localizedDays = habit.repeatDays
+          .map((e) => e.getLabel(locale).toLowerCase())
+          .join(', ');
       schedule = localizedDays;
     }
 
     return t.habit.time_schedule(time: timeStr, schedule: schedule);
-  }
-
-  String _localizedShortDayName(String englishDay) {
-    final weekdayMap = {
-      'monday': DateFormat.E('uk').dateSymbols.SHORTWEEKDAYS[1],
-      'tuesday': DateFormat.E('uk').dateSymbols.SHORTWEEKDAYS[2],
-      'wednesday': DateFormat.E('uk').dateSymbols.SHORTWEEKDAYS[3],
-      'thursday': DateFormat.E('uk').dateSymbols.SHORTWEEKDAYS[4],
-      'friday': DateFormat.E('uk').dateSymbols.SHORTWEEKDAYS[5],
-      'saturday': DateFormat.E('uk').dateSymbols.SHORTWEEKDAYS[6],
-      'sunday': DateFormat.E('uk').dateSymbols.SHORTWEEKDAYS[0],
-    };
-
-    return weekdayMap[englishDay.toLowerCase()] ?? englishDay;
   }
 }

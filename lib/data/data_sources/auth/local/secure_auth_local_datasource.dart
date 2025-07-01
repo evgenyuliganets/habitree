@@ -9,7 +9,7 @@ import 'package:habitree/data/models/auth/session_dto.dart';
 import 'package:habitree/domain/entities/auth/session.dart';
 import 'package:injectable/injectable.dart';
 
-@Injectable(as: AuthLocalDataSource)
+@LazySingleton(as: AuthLocalDataSource)
 class SecureAuthLocalDataSource implements AuthLocalDataSource {
   SecureAuthLocalDataSource(this._storage);
 
@@ -21,10 +21,12 @@ class SecureAuthLocalDataSource implements AuthLocalDataSource {
   @override
   Future<Result<void>> saveSession(Session session) {
     return safeLocalCall(() async {
-      _sessionCache = session;
       final dto = SessionDto.fromDomain(session);
       final json = jsonEncode(dto.toJson());
-      log('Saving session: $json', name: 'SecureAuthLocalDataSource');
+
+      _sessionCache = session;
+
+      log('🔐 Saving session: $json', name: 'SecureAuthLocalDataSource');
       await _storage.write(key: _sessionKey, value: json);
     });
   }
@@ -34,20 +36,36 @@ class SecureAuthLocalDataSource implements AuthLocalDataSource {
     return safeLocalCall(() async {
       _sessionCache = null;
       await _storage.delete(key: _sessionKey);
+      log(
+        '🧹 Session cleared (RAM + Storage)',
+        name: 'SecureAuthLocalDataSource',
+      );
     });
   }
 
   @override
   Future<Result<Session?>> getSavedSession() {
     return safeLocalCall(() async {
-      if (_sessionCache != null) return _sessionCache;
+      if (_sessionCache != null) {
+        log(
+          '✅ Returning session from cache',
+          name: 'SecureAuthLocalDataSource',
+        );
+        return _sessionCache;
+      }
 
       final jsonStr = await _storage.read(key: _sessionKey);
-      log('Retrieving session: $jsonStr', name: 'SecureAuthLocalDataSource');
+      log(
+        '📦 Retrieving session from storage: $jsonStr',
+        name: 'SecureAuthLocalDataSource',
+      );
+
       if (jsonStr == null) return null;
 
       final jsonMap = jsonDecode(jsonStr) as Map<String, dynamic>;
-      return _sessionCache = SessionDto.fromJson(jsonMap).toDomain();
+      final session = SessionDto.fromJson(jsonMap).toDomain();
+      _sessionCache = session;
+      return session;
     });
   }
 

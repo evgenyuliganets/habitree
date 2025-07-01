@@ -20,9 +20,9 @@ class _CreateHabitPageState extends State<CreateHabitPage> {
   @override
   void initState() {
     super.initState();
-    _timer = Timer.periodic(const Duration(seconds: 2), (_) {
+    _timer = Timer.periodic(const Duration(seconds: 1, milliseconds: 300), (_) {
       setState(() {
-        _colorIndex = (_colorIndex + 1) % HabitColors.lightValues.length;
+        _colorIndex = (_colorIndex + 1) % HabitColors.values.length;
       });
     });
   }
@@ -35,7 +35,7 @@ class _CreateHabitPageState extends State<CreateHabitPage> {
 
   @override
   Widget build(BuildContext context) {
-    final currentColor = HabitColors.lightValues[_colorIndex];
+    final currentColor = HabitColors.values[_colorIndex];
     return Scaffold(
       appBar: AppBar(),
       body: Column(
@@ -72,7 +72,7 @@ class _CreateHabitPageState extends State<CreateHabitPage> {
             style: context.titleMedium.copyWith(
               fontWeight: FontWeight.w600,
               color: context.themeExtension.grayColor,
-             ),
+            ),
             textAlign: TextAlign.center,
           ),
           SizedBox(height: 32.h),

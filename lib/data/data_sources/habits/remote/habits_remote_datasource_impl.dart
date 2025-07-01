@@ -2,6 +2,7 @@ import 'package:habitree/core/network/dio_client.dart';
 import 'package:habitree/core/network/safe_call.dart';
 import 'package:habitree/core/result/result.dart';
 import 'package:habitree/data/data_sources/habits/remote/habits_remote_datasource.dart';
+import 'package:habitree/data/models/habit/create_habit.dart';
 import 'package:habitree/data/models/habit_status/habit_status_dto.dart';
 import 'package:habitree/data/models/habit_status/mapper.dart';
 import 'package:habitree/domain/entities/habit_status/habit_status.dart';
@@ -40,8 +41,20 @@ class HabitsRemoteDataSourceImpl implements HabitsRemoteDataSource {
   }
 
   @override
-  Future<Result<void>> addHabit(HabitStatus habitStatus) {
-    // TODO: implement addHabit
-    throw UnimplementedError();
+  Future<Result<bool>> createHabit(CreateHabitDto habit) {
+    return safeCall(() async {
+      final response = await _dioClient.post<dynamic>(
+        '/rest/v1/rpc/create_habit',
+        data: {
+          'data': habit.toJson(),
+        },
+      );
+
+      if (response.statusCode == 200) {
+        return true;
+      } else {
+        return false;
+      }
+    });
   }
 }
