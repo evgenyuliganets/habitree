@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:habitree/core/theme/export_ui_styleguide.dart';
+import 'package:habitree/presentation/create_habbit/components/common_alert_dialog.dart';
 import 'package:habitree/presentation/create_habbit/provider/create_habit_notifier.dart';
 import 'package:habitree/presentation/create_habbit/provider/utils/default_habit_icons.dart';
 
@@ -18,16 +19,9 @@ Future<dynamic> showChooseIconDialog(
               (state) => icons.indexWhere((icon) => icon == state.emoji),
             ),
           );
-          return AlertDialog(
-            contentPadding:
-            EdgeInsets.symmetric(vertical: 24.h, horizontal: 32.w),
-            titlePadding:
-            EdgeInsets.symmetric(horizontal: 32.w).copyWith(top: 32.h),
-            insetPadding: EdgeInsets.symmetric(horizontal: 16.w),
-            title: const Text(
-              'Обери іконку для своєї звички',
-              textAlign: TextAlign.center,
-            ),
+          return CommonAlertDialog(
+            text: 'Обери іконку для своєї звички',
+
             content: Wrap(
               alignment: WrapAlignment.center,
               spacing: 8.w,
@@ -37,7 +31,7 @@ Future<dynamic> showChooseIconDialog(
                   .map(
                     (k, v) => MapEntry(
                       k,
-                      ColorOptionDot(
+                      _IconOptionDot(
                         isSelected: selectedIndex == k,
                         emoji: v,
                         onTap: () =>
@@ -48,19 +42,7 @@ Future<dynamic> showChooseIconDialog(
                   .values
                   .toList(),
             ),
-            actions: [
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  padding:
-                  EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20.r),
-                  ),
-                ),
-                onPressed: () => onNext(context),
-                child: Text(t.general.next),
-              ),
-            ],
+            onNext: onNext,
           );
         },
       );
@@ -68,12 +50,11 @@ Future<dynamic> showChooseIconDialog(
   );
 }
 
-class ColorOptionDot extends StatelessWidget {
-  const ColorOptionDot({
+class _IconOptionDot extends StatelessWidget {
+  const _IconOptionDot({
     required this.isSelected,
     required this.emoji,
     required this.onTap,
-    super.key,
   });
 
   final bool isSelected;

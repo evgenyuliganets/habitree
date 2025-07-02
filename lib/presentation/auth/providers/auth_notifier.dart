@@ -9,7 +9,6 @@ import 'package:habitree/domain/usecases/auth/get_current_session_usecase.dart';
 import 'package:habitree/domain/usecases/auth/params/confirm_otp_email_param.dart';
 import 'package:habitree/domain/usecases/auth/send_otp_email.dart';
 import 'package:habitree/domain/usecases/auth/sign_in_with_google_usecase.dart';
-import 'package:habitree/domain/usecases/auth/sign_out_usecase.dart';
 import 'package:habitree/presentation/auth/providers/auth_state.dart';
 import 'package:habitree/shared/utils/app_utils.dart';
 import 'package:injectable/injectable.dart';
@@ -18,7 +17,7 @@ import 'package:injectable/injectable.dart';
 class AuthNotifier extends StateNotifier<AuthState> {
   AuthNotifier(
     this._signInWithGoogleUseCase,
-    this._signOutUseCase,
+    // this._signOutUseCase,
     this._deleteAccountUseCase,
     this._getCurrentSessionUseCase,
     this._sendOtpEmailUseCase,
@@ -27,7 +26,8 @@ class AuthNotifier extends StateNotifier<AuthState> {
   ) : super(const AuthState.initial());
 
   final SignInWithGoogleUseCase _signInWithGoogleUseCase;
-  final SignOutUseCase _signOutUseCase;
+
+  // final SignOutUseCase _signOutUseCase;
   final DeleteAccountUseCase _deleteAccountUseCase;
   final GetCurrentSessionUseCase _getCurrentSessionUseCase;
   final SendOtpEmailUseCase _sendOtpEmailUseCase;

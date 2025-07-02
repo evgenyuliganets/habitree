@@ -5,7 +5,6 @@ import 'package:habitree/core/constants/constants.dart';
 import 'package:habitree/core/network/dio_client.dart';
 import 'package:habitree/core/network/safe_call.dart';
 import 'package:habitree/core/result/result.dart';
-import 'package:habitree/data/data_sources/auth/local/auth_local_datasource.dart';
 import 'package:habitree/data/data_sources/auth/remote/auth_remote_datasource.dart';
 import 'package:habitree/data/models/auth/google_token_dto.dart';
 import 'package:habitree/data/models/auth/session_dto.dart';
@@ -15,13 +14,9 @@ import 'package:injectable/injectable.dart';
 
 @LazySingleton(as: AuthRemoteDataSource)
 class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
-  AuthRemoteDataSourceImpl(
-    this._dioClient,
-    this._authLocalDataSource,
-  );
+  AuthRemoteDataSourceImpl(this._dioClient,);
 
   final DioClient _dioClient;
-  final AuthLocalDataSource _authLocalDataSource;
 
   @override
   Future<Result<SessionDto>> signInWithGoogle(GoogleTokenDto googleToken) {

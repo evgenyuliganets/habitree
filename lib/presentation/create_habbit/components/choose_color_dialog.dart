@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:habitree/core/theme/export_ui_styleguide.dart';
 import 'package:habitree/core/theme/habbit_colors.dart';
+import 'package:habitree/presentation/create_habbit/components/common_alert_dialog.dart';
 import 'package:habitree/presentation/create_habbit/provider/create_habit_notifier.dart';
 import 'package:habitree/shared/widgets/static/double_circle.dart';
 
@@ -19,16 +20,8 @@ Future<dynamic> showChooseColorDialog(
               (state) => colors.indexWhere((color) => color == state.color),
             ),
           );
-          return AlertDialog(
-            contentPadding:
-                EdgeInsets.symmetric(vertical: 24.h, horizontal: 32.w),
-            titlePadding:
-                EdgeInsets.symmetric(horizontal: 32.w).copyWith(top: 32.h),
-            insetPadding: EdgeInsets.symmetric(horizontal: 16.w),
-            title: const Text(
-              'Обери колір для своєї звички',
-              textAlign: TextAlign.center,
-            ),
+          return CommonAlertDialog(
+            text: 'Обери колір для своєї звички',
             content: Wrap(
               alignment: WrapAlignment.center,
               children: HabitColors.values
@@ -38,7 +31,7 @@ Future<dynamic> showChooseColorDialog(
                       k,
                       Padding(
                         padding: EdgeInsets.symmetric(horizontal: 5.w),
-                        child: ColorOptionDot(
+                        child: _ColorOptionDot(
                           isSelected: selectedIndex == k,
                           color: v,
                           onTap: () => ref
@@ -51,19 +44,7 @@ Future<dynamic> showChooseColorDialog(
                   .values
                   .toList(),
             ),
-            actions: [
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  padding:
-                      EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20.r),
-                  ),
-                ),
-                onPressed: () => onNext(context),
-                child: Text(t.general.next),
-              ),
-            ],
+            onNext: onNext,
           );
         },
       );
@@ -71,12 +52,11 @@ Future<dynamic> showChooseColorDialog(
   );
 }
 
-class ColorOptionDot extends StatelessWidget {
-  const ColorOptionDot({
+class _ColorOptionDot extends StatelessWidget {
+  const _ColorOptionDot({
     required this.isSelected,
     required this.color,
     required this.onTap,
-    super.key,
   });
 
   final bool isSelected;
