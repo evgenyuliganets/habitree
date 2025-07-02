@@ -5,21 +5,22 @@ import 'package:habitree/core/result/result.dart';
 import 'package:habitree/di/di.dart';
 import 'package:habitree/domain/entities/habit_status/habit_status.dart';
 import 'package:habitree/domain/usecases/habits/get_habits_status_usecase.dart';
+import 'package:habitree/domain/usecases/habits/toggle_done_habbit_usecase.dart';
 import 'package:habitree/presentation/home/habits_ui/provider/habits_by_date_state.dart';
 import 'package:injectable/injectable.dart';
 
 final habitsByDateProvider =
-StateNotifierProvider.autoDispose<HabitsByDateNotifier, HabitsByDateState>(
-      (ref) => getIt<HabitsByDateNotifier>(),
+    StateNotifierProvider.autoDispose<HabitsByDateNotifier, HabitsByDateState>(
+  (ref) => getIt<HabitsByDateNotifier>(),
 );
-
 
 @injectable
 class HabitsByDateNotifier extends StateNotifier<HabitsByDateState> {
-  HabitsByDateNotifier(this._getHabitsUseCase)
+  HabitsByDateNotifier(this._getHabitsUseCase, this._toggleHabitUseCase)
       : super(const HabitsByDateState.initial());
 
   final GetUserHabitsByDateUseCase _getHabitsUseCase;
+  final ToggleHabitDoneUseCase _toggleHabitUseCase;
 
   static const int _limit = 10;
 
@@ -38,7 +39,7 @@ class HabitsByDateNotifier extends StateNotifier<HabitsByDateState> {
       ),
     );
 
-    result.mapResult(
+    result?.mapResult(
       success: (paginated) {
         state = HabitsByDateState.loaded(
           habits: paginated.items,
@@ -49,7 +50,7 @@ class HabitsByDateNotifier extends StateNotifier<HabitsByDateState> {
       },
       failure: (f) {
         log(
-          '❌ Failed to load habits for date ${date.toIso8601String()}: ${f}',
+          '❌ Failed to load habits for date ${date.toIso8601String()}: $f',
           name: 'HabitsByDateNotifier',
         );
         state = HabitsByDateState.error(f.userMessage);
@@ -77,7 +78,7 @@ class HabitsByDateNotifier extends StateNotifier<HabitsByDateState> {
       ),
     );
 
-    result.mapResult(
+    result?.mapResult(
       success: (paginated) {
         state = HabitsByDateState.loaded(
           habits: [...currentHabits, ...paginated.items],
@@ -101,12 +102,12 @@ class HabitsByDateNotifier extends StateNotifier<HabitsByDateState> {
     var currentHabits = <HabitStatus>[];
     var offset = 0;
     var hasMore = false;
+    var toggleHabit = false;
 
     state.maybeWhen(
       loaded: (habits, off, tot, more) {
         currentHabits = habits;
         offset = off;
-        // total = tot;
         hasMore = more;
       },
       orElse: () {
@@ -117,6 +118,7 @@ class HabitsByDateNotifier extends StateNotifier<HabitsByDateState> {
 
     final updatedHabits = currentHabits.map((h) {
       if (h.id == habit.id) {
+        toggleHabit = !h.completed;
         return h.copyWith(
           isCompleted: !h.completed,
           lastUpdated: DateTime.now(),
@@ -124,6 +126,13 @@ class HabitsByDateNotifier extends StateNotifier<HabitsByDateState> {
       }
       return h;
     }).toList();
+    _toggleHabitUseCase.call(
+      ToggleHabitParam(
+        habitId: habit.id,
+        date: DateTime(selectedDate.year, selectedDate.month, selectedDate.day),
+        completed: toggleHabit,
+      ),
+    );
 
     state = HabitsByDateState.loaded(
       habits: updatedHabits,

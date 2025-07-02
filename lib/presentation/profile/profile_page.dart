@@ -1,11 +1,9 @@
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:habitree/core/theme/export_ui_styleguide.dart';
-import 'package:habitree/core/theme/extensions/app_theme_extension.dart';
-import 'package:habitree/core/theme/extensions/theme_extension.dart';
-import 'package:habitree/i18n/strings.g.dart';
 import 'package:habitree/main.dart';
 import 'package:habitree/presentation/auth/providers/auth_notifier.dart';
+import 'package:habitree/presentation/widgets/language_selector.dart';
 import 'package:habitree/routes/route_paths.dart';
 
 class ProfilePage extends ConsumerStatefulWidget {
@@ -56,17 +54,16 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                const LanguageSelector(),
                 //logout button
                 ElevatedButton(
                   onPressed: () {
-                    ref.read(authNotifierProvider.notifier).signOut()
-                        .then((e) {
+                    ref.read(authNotifierProvider.notifier).signOut().then((e) {
                       Navigator.of(context).pushNamedAndRemoveUntil(
                         RoutePaths.auth,
                         (route) => false,
                       );
-                    })
-                    ;
+                    });
                   },
                   child: Text(context.t.general.logout),
                 ),

@@ -7,7 +7,7 @@ class HabitreeCheckbox extends StatelessWidget {
     super.key,
   });
 
-  final bool value;
+  final bool? value;
   final ValueChanged<bool?>? onChanged;
 
   @override
@@ -17,7 +17,7 @@ class HabitreeCheckbox extends StatelessWidget {
       child: Transform.scale(
         scale: 28.w / 20,
         child: Checkbox(
-          value: value,
+          value: value ?? false,
           onChanged: onChanged,
         ),
       ),

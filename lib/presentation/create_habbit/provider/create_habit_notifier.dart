@@ -69,10 +69,10 @@ class CreateHabitNotifier extends AutoDisposeNotifier<HabitDraft> {
   Future<void> submit(String title) async {
     final dto = state.copyWith(title: title).toDto();
     final result = await _createHabitUseCase(dto);
-    result.mapResult(
+    result?.mapResult(
       success: (isCreated) {
         final context = NavigationService.navigatorKey.currentContext;
-        if(context != null) {
+        if (context != null) {
           Navigator.of(context).popUntil((route) => route.isFirst);
         }
       },

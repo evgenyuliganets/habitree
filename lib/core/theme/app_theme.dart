@@ -46,6 +46,7 @@ class AppTheme {
         secondary: AppColors.accent,
         surface: AppColors.background,
         onSurface: AppColors.textPrimary,
+        error: AppColors.error,
       ),
       textTheme: habitreeTextTheme.apply(
         bodyColor: AppColors.black,
@@ -204,6 +205,7 @@ class AppTheme {
         secondary: AppColors.accent,
         surface: AppColors.darkBackground,
         onSurface: AppColors.white,
+        error:  AppColors.error,
       ),
       textTheme: habitreeTextTheme.apply(
         bodyColor: AppColors.white,

@@ -21,7 +21,7 @@ Future<dynamic> showChooseColorDialog(
             ),
           );
           return CommonAlertDialog(
-            text: 'Обери колір для своєї звички',
+            text: context.t.habitCreationFilling.colorTitle,
             content: Wrap(
               alignment: WrapAlignment.center,
               children: HabitColors.values

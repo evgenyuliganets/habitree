@@ -19,7 +19,7 @@ Future<dynamic> showChooseScheduleCDialog(
           final draft = ref.watch(createHabitProvider);
           final isDaily = draft.isDaily;
           return CommonAlertDialog(
-            text: 'Який графік бажаєш?',
+            text: context.t.habitCreationFilling.repeatDaysTitle,
             content: SizedBox(
               width: screenWidth - 32.w,
               child: Column(
@@ -50,7 +50,7 @@ Future<dynamic> showChooseScheduleCDialog(
                   ),
                   SizedBox(height: 16.h),
                   HabitreeCheckboxTile(
-                    title: 'Щодня',
+                    title: context.t.habitCreationFilling.dailyLabel,
                     value: isDaily,
                     onChanged: (value) => ref
                         .read(createHabitProvider.notifier)

@@ -3,7 +3,6 @@ import 'package:habitree/core/theme/export_ui_styleguide.dart';
 import 'package:habitree/presentation/create_habbit/components/common_alert_dialog.dart';
 import 'package:habitree/presentation/create_habbit/provider/create_habit_notifier.dart';
 import 'package:habitree/shared/widgets/active/checkbox_tile.dart';
-import 'package:habitree/shared/widgets/static/double_circle.dart';
 
 Future<dynamic> showChooseFrequencyDialog(
   BuildContext context,
@@ -17,12 +16,12 @@ Future<dynamic> showChooseFrequencyDialog(
           final draft = ref.watch(createHabitProvider);
           final isOneTime = draft.isOneTime;
           return CommonAlertDialog(
-            text: 'Як  довго  хочеш    виконувати звичку?',
+            text: context.t.habitCreationFilling.goalTypeTitle,
             content: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
                 HabitreeCheckboxTile(
-                  title: 'Це одноразово',
+                  title: context.t.habitCreationFilling.goalOnce,
                   value: isOneTime,
                   onChanged: (value) => ref
                       .read(createHabitProvider.notifier)
@@ -30,8 +29,8 @@ Future<dynamic> showChooseFrequencyDialog(
                 ),
                 SizedBox(height: 16.h),
                 HabitreeCheckboxTile(
-                  title: 'Це довгостроково ',
-                  value: !isOneTime,
+                  title: context.t.habitCreationFilling.goalLongTerm,
+                  value: isOneTime == null ? null : !isOneTime,
                   onChanged: (value) => ref
                       .read(createHabitProvider.notifier)
                       .setIsOneTime(value: false),

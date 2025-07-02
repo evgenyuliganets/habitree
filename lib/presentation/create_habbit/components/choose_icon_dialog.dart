@@ -20,8 +20,7 @@ Future<dynamic> showChooseIconDialog(
             ),
           );
           return CommonAlertDialog(
-            text: 'Обери іконку для своєї звички',
-
+            text: context.t.habitCreationFilling.iconTitle,
             content: Wrap(
               alignment: WrapAlignment.center,
               spacing: 8.w,

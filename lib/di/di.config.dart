@@ -52,6 +52,8 @@ import 'package:habitree/domain/usecases/habits/create_habit_usecase.dart'
     as _i492;
 import 'package:habitree/domain/usecases/habits/get_habits_status_usecase.dart'
     as _i630;
+import 'package:habitree/domain/usecases/habits/toggle_done_habbit_usecase.dart'
+    as _i225;
 import 'package:habitree/presentation/auth/providers/auth_notifier.dart'
     as _i494;
 import 'package:habitree/presentation/create_habbit/provider/create_habit_notifier.dart'
@@ -84,16 +86,17 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i249.DioClient>(
         () => dioModule.dioClient(gh<_i361.Dio>()));
     gh.lazySingleton<_i11.AuthRemoteDataSource>(
-        () => _i966.AuthRemoteDataSourceImpl(
-              gh<_i249.DioClient>(),
-              gh<_i174.AuthLocalDataSource>(),
-            ));
+        () => _i966.AuthRemoteDataSourceImpl(gh<_i249.DioClient>()));
+    gh.factory<_i349.HabitsRemoteDataSource>(
+        () => _i232.HabitsRemoteDataSourceImpl(gh<_i249.DioClient>()));
+    gh.factory<_i892.HabitsRepository>(
+        () => _i409.HabitRepositoryImpl(gh<_i349.HabitsRemoteDataSource>()));
+    gh.factory<_i225.ToggleHabitDoneUseCase>(
+        () => _i225.ToggleHabitDoneUseCase(gh<_i892.HabitsRepository>()));
     gh.factory<_i247.AuthRepository>(() => _i773.AuthRepositoryImpl(
           gh<_i11.AuthRemoteDataSource>(),
           gh<_i174.AuthLocalDataSource>(),
         ));
-    gh.factory<_i349.HabitsRemoteDataSource>(
-        () => _i232.HabitsRemoteDataSourceImpl(gh<_i249.DioClient>()));
     gh.factory<_i341.SignInWithGoogleUseCase>(
         () => _i341.SignInWithGoogleUseCase(
               gh<_i205.GoogleSignInService>(),
@@ -113,22 +116,21 @@ extension GetItInjectableX on _i174.GetIt {
         () => _i1001.GetCurrentSessionUseCase(gh<_i247.AuthRepository>()));
     gh.factory<_i490.SendOtpEmailUseCase>(
         () => _i490.SendOtpEmailUseCase(gh<_i247.AuthRepository>()));
-    gh.factory<_i892.HabitsRepository>(
-        () => _i409.HabitRepositoryImpl(gh<_i349.HabitsRemoteDataSource>()));
+    gh.factory<_i630.GetUserHabitsByDateUseCase>(
+        () => _i630.GetUserHabitsByDateUseCase(gh<_i892.HabitsRepository>()));
+    gh.factory<_i492.CreateHabitUseCase>(
+        () => _i492.CreateHabitUseCase(gh<_i892.HabitsRepository>()));
+    gh.factory<_i1043.HabitsByDateNotifier>(() => _i1043.HabitsByDateNotifier(
+          gh<_i630.GetUserHabitsByDateUseCase>(),
+          gh<_i225.ToggleHabitDoneUseCase>(),
+        ));
     gh.factory<_i494.AuthNotifier>(() => _i494.AuthNotifier(
           gh<_i341.SignInWithGoogleUseCase>(),
-          gh<_i509.SignOutUseCase>(),
           gh<_i506.DeleteAccountUseCase>(),
           gh<_i1001.GetCurrentSessionUseCase>(),
           gh<_i490.SendOtpEmailUseCase>(),
           gh<_i203.ConfirmOtpEmailUseCase>(),
         ));
-    gh.factory<_i630.GetUserHabitsByDateUseCase>(
-        () => _i630.GetUserHabitsByDateUseCase(gh<_i892.HabitsRepository>()));
-    gh.factory<_i492.CreateHabitUseCase>(
-        () => _i492.CreateHabitUseCase(gh<_i892.HabitsRepository>()));
-    gh.factory<_i1043.HabitsByDateNotifier>(() =>
-        _i1043.HabitsByDateNotifier(gh<_i630.GetUserHabitsByDateUseCase>()));
     gh.factory<_i282.CreateHabitNotifier>(
         () => _i282.CreateHabitNotifier(gh<_i492.CreateHabitUseCase>()));
     return this;

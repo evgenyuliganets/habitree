@@ -149,12 +149,19 @@ class HabitCard extends ConsumerWidget {
             children: [
               Row(
                 children: [
-                  Text(
-                    habit.emoji,
-                    style: context.displayMedium.copyWith(
-                      fontSize: 50.sp,
-                      height: 1,
-                      fontWeight: FontWeight.w400,
+                  ConstrainedBox(
+                    constraints: BoxConstraints(
+                      maxWidth: 100.w,
+                      maxHeight: 60.w,
+                    ),
+                    child: Text(
+                      habit.emoji,
+                      maxLines: 1,
+                      style: context.displayMedium.copyWith(
+                        fontSize: 50.sp,
+                        height: 1,
+                        fontWeight: FontWeight.w400,
+                      ),
                     ),
                   ),
                   const Spacer(),

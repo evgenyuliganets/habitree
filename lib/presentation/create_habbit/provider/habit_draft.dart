@@ -16,10 +16,10 @@ class HabitDraft with _$HabitDraft {
     @Default(HabitColors.defaultColor) Color color,
     @Default('') String title,
     @Default(<Weekday>[]) List<Weekday> repeatDays,
-    @Default(false) bool isDaily,
-    @Default(false) bool isOneTime,
-    @Default(TimeOfDay(hour: 9, minute: 0)) TimeOfDay time,
-    @Default(HabitTerm.week) HabitTerm term,
+    @Default(null) bool? isDaily,
+    @Default(null) bool? isOneTime,
+    @Default(null) TimeOfDay? time,
+    @Default(null) HabitTerm? term,
   }) = _HabitDraft;
 }
 
@@ -30,10 +30,10 @@ extension HabitDraftDtoMapper on HabitDraft {
       emoji: emoji,
       color: color.toHex(),
       repeatDays: weekDaysToJson(repeatDays),
-      isDaily: isDaily,
-      isOneTime: isOneTime,
-      timeOfDay: time.formatString(),
-      term: term.name,
+      isDaily: isDaily ?? false,
+      isOneTime: isOneTime ?? false,
+      timeOfDay: (time ?? const TimeOfDay(hour: 9, minute: 0)).formatString(),
+      term: term?.name ?? HabitTerm.week.name,
     );
   }
 }

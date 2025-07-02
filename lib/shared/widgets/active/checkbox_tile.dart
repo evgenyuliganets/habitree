@@ -10,7 +10,7 @@ class HabitreeCheckboxTile extends StatelessWidget {
     this.direction = Axis.horizontal,
   });
 
-  final bool value;
+  final bool? value;
   final Axis direction;
   final ValueChanged<bool?> onChanged;
   final String title;
@@ -23,7 +23,7 @@ class HabitreeCheckboxTile extends StatelessWidget {
         splashColor: Colors.transparent,
         highlightColor: Colors.transparent,
         overlayColor: Colors.transparent.matColor,
-        onTap: () => onChanged(!value),
+        onTap: () => onChanged(!(value??false)),
         child: SizedBox(
           height: 40.w,
           child: Row(
@@ -47,7 +47,7 @@ class HabitreeCheckboxTile extends StatelessWidget {
         splashColor: Colors.transparent,
         highlightColor: Colors.transparent,
         overlayColor: Colors.transparent.matColor,
-        onTap: () => onChanged(!value),
+        onTap: () => onChanged(!(value??false)),
         child: SizedBox(
           width: 32.w,
           height: 80.h,

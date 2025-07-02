@@ -8,6 +8,7 @@ import 'package:habitree/data/models/habit_status/mapper.dart';
 import 'package:habitree/domain/entities/habit_status/habit_status.dart';
 import 'package:habitree/domain/entities/paginated_list/paginated_list.dart';
 import 'package:habitree/domain/usecases/habits/get_habits_status_usecase.dart';
+import 'package:habitree/domain/usecases/habits/toggle_done_habbit_usecase.dart';
 import 'package:injectable/injectable.dart';
 
 const _getHabitsByDatePath = '/rest/v1/rpc/get_user_habits_by_date';
@@ -48,6 +49,22 @@ class HabitsRemoteDataSourceImpl implements HabitsRemoteDataSource {
         data: {
           'data': habit.toJson(),
         },
+      );
+
+      if (response.statusCode == 200) {
+        return true;
+      } else {
+        return false;
+      }
+    });
+  }
+
+  @override
+  Future<Result<bool>> toggleHabit({required ToggleHabitParam param}) {
+    return safeCall(() async {
+      final response = await _dioClient.post<dynamic>(
+        '/rest/v1/rpc/set_habit_completion',
+        data: param.toJson(),
       );
 
       if (response.statusCode == 200) {

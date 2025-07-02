@@ -35,5 +35,5 @@ class DefaultHabitIcons {
     dog,
   ];
 
-  static const String defaultIcon = yoga;
+  static const String defaultIcon = running;
 }

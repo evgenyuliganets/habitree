@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:habitree/core/theme/export_ui_styleguide.dart';
 import 'package:intl/intl.dart';
 
 List<Weekday> weekDaysFromJson(List<String> json) {
@@ -60,7 +60,22 @@ enum HabitTerm {
   month,
   threeMonths,
   year,
-  forever,
+  forever;
+
+  String title(Translations locale) {
+    switch (this) {
+      case HabitTerm.week:
+        return locale.habitCreationFilling.termWeek;
+      case HabitTerm.month:
+        return locale.habitCreationFilling.termMonth;
+      case HabitTerm.threeMonths:
+        return locale.habitCreationFilling.term3Months;
+      case HabitTerm.year:
+        return locale.habitCreationFilling.termYear;
+      case HabitTerm.forever:
+        return locale.habitCreationFilling.termForever;
+    }
+  }
 }
 
 class HabitEntity {
